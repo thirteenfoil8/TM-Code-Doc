@@ -1,0 +1,12 @@
+h1, h2 {
+	color: #337ab7;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+#apercu {
+	display:none;
+}
+
+.btn {
+	margin-top: 5px;
+}

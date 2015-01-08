@@ -4,5 +4,5 @@ from django.contrib import admin
 urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^courses/', include('courses.urls')),
+    url(r'^exercises/', include('exercises.urls', namespace='exercises'))
 )
