@@ -19,3 +19,6 @@ def create(request):
 
 def base(request):
     return render(request, 'exercises/base.html')
+
+def find(request):
+    return render(request, 'exercises/find.html')
