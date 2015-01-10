@@ -1,0 +1,18 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+#donnee {
+    font-size: 16px;
+    font-family: Verdana;
+}
+.col-md-4 {
+    margin-top: 100px;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+
+}

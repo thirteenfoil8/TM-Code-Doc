@@ -1,0 +1,41 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+#donnee {
+    font-size: 16px;
+    font-family: Verdana;
+}
+#outils {
+    margin-top: 100px;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+
+
+
+.top {
+    border: 3px solid black;
+    border-radius: 5px;
+
+}
+
+#top {
+    margin-top: 5px;
+}
+
+.donnee {
+    border: 3px dashed black;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+#button {
+    margin-top:5px;
+}
