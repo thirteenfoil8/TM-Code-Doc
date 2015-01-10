@@ -1,0 +1,55 @@
+####################
+jQuery, c'est quoi ?
+####################
+
+jQuery est un framework de Javascript utilisé pour permettre au site de devenir 
+plus intéractif et d’avoir un meilleur rendu final. Si nous regardons
+les sites célèbres de nos jours( YouTube, Facebook, Twitter), l’utilisateur est 
+sans cesse en relations avec le site même et plus il y a d’interactivité possible,
+plus l’utilisateur commence à se forger une propriété sur le site et peut l’utiliser
+à sa guise. jQuery est un framework absolument essentiel à la réussite du projet.
+De plus, la documentation de jQuery et jQuery UI est très vaste et variée.
+
+Les débuts de jQuery
+--------------------
+
+Le créateur de jQuery est un américain du nom de John Resig qui est un programmeur
+Javascript comme il en existe peu. Il travaillait auparavant pour Mozilla Corporation
+en tant que développeur Javascript.
+
+jQuery est un framework Javascript libre. Ce qui veut dire que n'importe qui peut 
+ajouter des plug-ins pour améliorer de manière infini la puissance de cet outil.
+Il sert notammment à pouvoir créer des éléments intéractifs permettant à l'utilisateur
+de pouvoir personnaliser une page web ou encore à ajouter des effets réagissant suite
+à un event. (click de souris, ...)
+
+
+Les principales utilités de jQuery
+---------------------------------
+
+jQuery permet de faire des effets visuels pouvant donner au site un design plus moderne,
+de pouvoir modifier du css rapidement mais surtout d’avoir un contrôle sur le DOM de manière
+externe au code. En effet, l’utilisateur peut changer certains éléments présent sur le site
+sans avoir à coder. 
+
+La Syntaxe de base de jQuery
+----------------------------
+
+La syntaxe de jQuery n'est pas très compliquer mais des oublies sont très vite arrivés.
+De manière générale, la syntaxe commence comme ceci:
+
+..  code-block:: javascript
+    :linenos:
+    
+    $(document).ready(function() {
+        $('element').events(function() {
+            $(this).action({
+            });
+        });
+    });
+    
+    
+Comme vous pouvez le constater, la syntaxe est truffée de caractères spéciaux que l'on ne
+doit pas négliger. Ce language nécessite de l'entraînement et beaucoup de tutoriels sont 
+présents sur la toile pour apprendre de manière efficace et précise tous les rudiments de 
+ce framework. Nous pouvons citer par exemple celui de `Codecademy <http://www.codecademy.com/fr/tracks/jquery>`_
