@@ -33,7 +33,9 @@ class Exercise(models.Model):
     # éventuellement rajouter un champ "collaborateurs"
     
     #chapter = models.ManyToManyField('teachers.Chapter')
-
+    
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=30)
     donnee = models.CharField(max_length=200)
     equation = models.CharField(max_length=50)
@@ -46,6 +48,8 @@ class Exercise(models.Model):
     # Ne peut-on pas imaginer plusieurs indices par exercice (il faudrait alors une FK vers une autre table
     # j'appellerais ce champ plutôt "comment"
     comment = models.CharField(max_length=200, blank=True)
+    def __str__(self):
+        return self.title
         
 # définir une nouvelle table "Hint" (indices) ==> un exo peut avoir plusieures indices.
 # Il faudrait pouvoir ordonner les indices pour un certain exercice

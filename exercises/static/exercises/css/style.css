@@ -4,9 +4,17 @@ h1, h2 {
 	margin-top: 10px;
 }
 #apercu {
-	display:none;
+	display: none;
 }
 
 .btn {
 	margin-top: 5px;
+}
+
+h6 {
+	text-align: right;
+}
+
+#donnee {
+	font-size: 20px;
 }

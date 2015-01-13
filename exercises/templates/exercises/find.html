@@ -9,8 +9,8 @@
         <div class="caption-full">
             <h1>Résoudre un exercice</h1>
             <ul>
-                {% for exercises in exercise%}
-                    <li><a href="">{{ exercise.title }}</a></li>
+                {% for exercise in exercises_list %}
+                    <li><a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}</a></li>
                 {% endfor %}
             </ul>
         </div>

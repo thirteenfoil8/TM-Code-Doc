@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from exercises.models import *
 # Create your views here.
@@ -22,8 +22,8 @@ def base(request):
 
 def find(request):
     latest_exercise_list = Exercise.objects.all()
-    return render(request, 'exercises/find.html', {"exercise" : latest_exercise_list})
+    return render(request, 'exercises/find.html', {"exercises_list" : latest_exercise_list})
     
-def exercises(request):
+def resolve(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
-    return render(request, 'exercises/exercises.html')
+    return render(request, 'exercises/resolve.html', {"exercise" : exercise})
