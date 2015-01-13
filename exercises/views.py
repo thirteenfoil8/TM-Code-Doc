@@ -21,4 +21,9 @@ def base(request):
     return render(request, 'exercises/base.html')
 
 def find(request):
-    return render(request, 'exercises/find.html')
+    latest_exercise_list = Exercise.objects.all()
+    return render(request, 'exercises/find.html', {"exercise" : latest_exercise_list})
+    
+def exercises(request):
+    exercise = get_object_or_404(Exercise, id=n_exercise)
+    return render(request, 'exercises/exercises.html')

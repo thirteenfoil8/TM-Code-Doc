@@ -7,12 +7,7 @@
 <div class="col-md-9">
     <div class="thumbnail">
         <div class="caption-full">
-            <h1>Résoudre un exercice</h1>
-            <ul>
-                {% for exercises in exercise%}
-                    <li><a href="">{{ exercise.title }}</a></li>
-                {% endfor %}
-            </ul>
+            <h1>{{ exercises.title }}</h1>
         </div>
     </div>
 </div>

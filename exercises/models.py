@@ -33,9 +33,7 @@ class Exercise(models.Model):
     # éventuellement rajouter un champ "collaborateurs"
     
     #chapter = models.ManyToManyField('teachers.Chapter')
-    
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
+
     title = models.CharField(max_length=30)
     donnee = models.CharField(max_length=200)
     equation = models.CharField(max_length=50)
