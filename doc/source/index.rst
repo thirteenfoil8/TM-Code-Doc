@@ -10,9 +10,9 @@ Contenu:
 .. toctree::
    :maxdepth: 2
 
-   Introduction
    projet_debut
-
+   create
+   find
    
 
 Indices and tables
