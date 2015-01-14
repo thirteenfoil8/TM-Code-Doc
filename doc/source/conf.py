@@ -184,7 +184,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Monpremierdocumentsphinxdoc'
+htmlhelp_basename = 'Application Exercises'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -204,8 +204,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'Monpremierdocumentsphinx.tex', u'Mon premier document sphinx Documentation',
-   u'Florian', 'manual'),
+  ('index', 'Monpremierdocumentsphinx.tex', u'Application Exercises',
+   u'Florian Genilloud', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -234,7 +234,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'monpremierdocumentsphinx', u'Mon premier document sphinx Documentation',
+    ('index', 'monpremierdocumentsphinx', u'Application Exercises',
      [u'Florian'], 1)
 ]
 

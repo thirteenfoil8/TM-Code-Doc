@@ -19,20 +19,38 @@ Tout est dit, il suffit juste de spécifier le titre, la donnée ainsi que l'éq
 à côté de celui nommé valider. Celui-ci , sert une fois avoir insérer les données voulu d'avoir un aperçu de ce qui sera présent dans l'exercice.
 
 --------------------------------------
-Le code en lui-même
+Le code permettant la création
 --------------------------------------
 
 .........................................
 Le template
 .........................................
 
-Dans le template create.html, rien de spécial y apparait mise à part les 2 <input> et le <textarea> qui seront utilisés dans la vue "create" plus tard.
+Dans le template exercises/templates/create.html, rien de spécial y apparait mise à part les 2 <input> et le <textarea> qui seront utilisés dans la vue "create" plus tard.
 
 .. code-block:: html
 
     <input type="text" id="title" name="title" class="form-control">
     <textarea id="donnee" class="form-control" name="donnee"></textarea>
     <input type="text" id="equation" name="equation" class="form-control">
+    
+Il est à ajouter que pour le bouton aperçu, un code javascript a été nécéssaire. 
+
+Le voici:
+
+.. code-block:: javascript
+
+    $(document).ready(function() {
+        $("#voir").click(function() {
+            var formule = $("#equation").val();
+            var donnee= $("#donnee").val();
+            $("#formule").text(formule);
+            $("#donnee-apercu").text(donnee)
+            $("#apercu").css({display : "block"})
+        })
+    });
+
+Jquery permet de faire une modification du DOM beaucoup plus rapide que du javascript simple. 
 
 ........................................
 La vue
@@ -40,7 +58,7 @@ La vue
 
 Pour ce qui est du code fonctionnant derrière cette partie de mon application, la difficulté se trouve surtout dans la sauvegarde des données.
 
-En effet, il a fallu pour chaques balises <textarea> ou <input> permettant d'entrer les valeurs du titre, de la donnée et de l'équation puissent être enregistrer dans une variable et les enregistrer
+En effet, il a fallu que pour chaques balises <textarea> ou <input> permettant d'entrer les valeurs du titre, de la donnée et de l'équation puissent être enregistrer dans une variable et les enregistrer
 dans la base de donnée dans la table "Exercices". Le code qui m'a permis de faire cela se trouve dans le fichier views.py dans la vue "create".
 
 .. code-block:: python
@@ -57,6 +75,6 @@ dans la base de donnée dans la table "Exercices". Le code qui m'a permis de fai
     else:
         return render(request, 'exercises/create.html')
         
-La partie se trouvant dans le "if" permet de mettre dans des variales les valeurs récupérées. Il est a noté qu'il y a une partie else présente dans cette vue.
+La partie se trouvant dans le "if" permet de mettre dans des variables les valeurs récupérées. Il est a noté qu'il y a une partie else présente dans cette vue.
 Cela indique seulement que si il n'y a pas de données à enregistrer, le template se charge normalement. Dès le moment où des données sont enregistrées, l'utilisateur est renvoyé à la page d'accueil.
 Ceci permet juste que l'utilisateur ne crée pas de doublons en cliquant plusieurs fois sur "Valider" et qu'il comprenne que son exercice a bien été enregistré.
