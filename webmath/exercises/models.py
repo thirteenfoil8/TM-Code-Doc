@@ -1,25 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Skill(models.Model):
-    # max_length=200 me paraît un peu beaucoup ... (tout ceci prend de la place
-    # inutilement dans la base de données
-    short_name = models.CharField(max_length=30)
-    
-    # http://stackoverflow.com/questions/7354588/django-charfield-vs-textfield
-    description = models.CharField(max_length=50)
-    
-   # chapter = models.ManyToManyField('teachers.Chapter')
-#
-# all about exercise
-#
-# class Exercise_type(models.Model):
-#     title = models.CharField(max_length=20)
-#     donnees = models.CharField(max_length=50)
-#     #user = models.ManyToManyField('students.Student')
-#     skill = models.ManyToManyField(Skill)
-    
-    
 
 class Exercise(models.Model):
     #user = models.ManyToManyField('students.Student')
@@ -54,14 +35,14 @@ class Exercise(models.Model):
 # définir une nouvelle table "Hint" (indices) ==> un exo peut avoir plusieures indices.
 # Il faudrait pouvoir ordonner les indices pour un certain exercice
 
+class Exercise_done(models.Model):
+    do_on = models.DateTimeField(auto_now_add=True)
+    exercise_done = models.ForeignKey(Exercise)
+
 class Hint_exo(models.Model):
-    exercice = models.ManyToManyField(Exercise)
+    exercise = models.ManyToManyField(Exercise)
     hint = models.CharField(max_length= 200)
     
-
-class Hint_type(models.Model):
-    #type_exercice = models.ManyToManyField(Exercise_type)
-    hint = models.CharField(max_length= 200)
     
         
 class Correction(models.Model):
