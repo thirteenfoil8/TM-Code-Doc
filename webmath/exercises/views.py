@@ -10,8 +10,9 @@ def create(request):
         title = request.POST['type']
         donnee = request.POST['donnee']
         equation = request.POST['equation']
+        grade = request.POST['grade']
         
-        Exercise(title=title, donnee=donnee, equation=equation).save()
+        Exercise(title=title, donnee=donnee, equation=equation, grade=grade).save()
         
         return HttpResponseRedirect(reverse("exercises:index"))
     else:

@@ -12,23 +12,35 @@
         <div class="caption-full">
             <h1>Création d'exercice</h1>
             <form action="{% url 'exercises:create' %}" method="post">{% csrf_token %}
-            <div>
-                <label for="title">Type d'exercice</label>
-                <SELECT name="type" id='type'>
-    		        <OPTION VALUE="Factorisation 1er degré">Factorisation 1er degré</OPTION>
-    		        <OPTION VALUE="Factorisation 2eme degré">Factorisation 2eme degré</OPTION>
-    		        <OPTION VALUE="Développement 1er degré">Développement 1er degré</OPTION>
-    		        <OPTION VALUE="Développement 2eme degré">Développement 2eme degré</OPTION>
-    	        </SELECT>
-	        </div>
-	        <div>
-                <label for="donnee"><br>Donnée de l'exercice</label>
-                <textarea id="donnee" class="form-control" name="donnee"></textarea>
-                <label for="equation">Equation à résoudre</label>
-                <input type="text" id="equation" name="equation" class="form-control">
-                <button type="button" id="voir" class="btn btn-sm btn-primary">Aperçu</button>
-                <input type="submit" class="btn btn-sm btn-primary">
-            </div>
+                <div>
+                    <label for="title">Type d'exercice</label>
+                    <SELECT name="type" id='type'>
+        		        <OPTION VALUE="Factorisation 1er degré">Factorisation 1er degré</OPTION>
+        		        <OPTION VALUE="Factorisation 2eme degré">Factorisation 2eme degré</OPTION>
+        		        <OPTION VALUE="Développement 1er degré">Développement 1er degré</OPTION>
+        		        <OPTION VALUE="Développement 2eme degré">Développement 2eme degré</OPTION>
+        	        </SELECT>
+    	        </div>
+    	        <div>
+                    <label for="donnee"><br>Donnée de l'exercice</label>
+                    <textarea id="donnee" class="form-control" name="donnee"></textarea>
+                </div>
+                <div>
+                    <label for="equation">Equation à résoudre</label>
+                    <input type="text" id="equation" name="equation" class="form-control">
+                <div>
+                    <label for="grade">Difficulté</label>
+                	<SELECT name="grade">
+    	                <OPTION VALUE="1">1</OPTION>
+    	                <OPTION VALUE="2">2</OPTION>
+                		<OPTION VALUE="3">3</OPTION>
+                		<OPTION VALUE="4">4</OPTION>
+                		<OPTION VALUE="5">5</OPTION>
+                	</SELECT>
+                </div>
+                    <button type="button" id="voir" class="btn btn-sm btn-primary">Aperçu</button>
+                    <input type="submit" class="btn btn-sm btn-primary">
+                </div>
             </form>
         </div>
     </div>
