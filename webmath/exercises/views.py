@@ -7,7 +7,7 @@ def index(request):
 
 def create(request):
     if request.method == 'POST': # sauvegarde des données dans la db
-        title = request.POST['title']
+        title = request.POST['type']
         donnee = request.POST['donnee']
         equation = request.POST['equation']
         
