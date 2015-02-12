@@ -28,3 +28,6 @@ def find(request):
 def resolve(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
     return render(request, 'exercises/resolve.html', {"exercise" : exercise})
+
+def correction(request):
+    return render(request,'exercises/correction.html')
