@@ -11,12 +11,12 @@
             <h1 id="title">{{ exercise.title }}</h1>
             <div class="thumbnail">
                 <p id ="donnee">{{ exercise.donnee }}</p>
-                <p>{{ exercise.equation }}</p>
+                <p>$$ {{ exercise.equation }} $$</p>
                 <h6>crée le :{{ exercise.created_on  }}</h6>
                 <input type="text" id="equation" name="equation" class="form-control">
             </div>
             <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
-            <a class="btn btn-sm btn-primary" href="{% url 'exercises:correction' %}">Corrigé</a>
+            <a class="btn btn-sm btn-primary" href="{% url 'exercises:correction' id %}">Soumettre et aller au corrigé</a>
         </div>
     </div>
 </div>

@@ -8,5 +8,5 @@ urlpatterns = patterns('',
     url(r'^base/$', base, name="base"),
     url(r'^find/$', find, name="find"),
     url(r'^resolve/(\d+)/$', resolve, name="resolve"),
-    url(r'^correction/$', correction, name='correction'),
+    url(r'^correction/(\d+)/$', correction, name='correction'),
 )

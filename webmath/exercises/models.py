@@ -18,7 +18,6 @@ class Exercise(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=30)
-    donnee = models.CharField(max_length=200)
     equation = models.CharField(max_length=50)
     
     # documenter les champs ==> à quoi servent-ils ???
@@ -29,6 +28,8 @@ class Exercise(models.Model):
     # Ne peut-on pas imaginer plusieurs indices par exercice (il faudrait alors une FK vers une autre table
     # j'appellerais ce champ plutôt "comment"
     comment = models.CharField(max_length=200)
+    
+    correction = models.CharField(max_length = 200)
     def __str__(self):
         return self.title
         
@@ -43,11 +44,3 @@ class Exercise(models.Model):
 #     exercise = models.ManyToManyField(Exercise)
 #     hint = models.CharField(max_length= 200)
     
-    
-        
-# class Correction(models.Model):
-#     exercise = models.ForeignKey(Exercise)
-    
-#     # je pense qu'en anglais, on dit plutôt "created_on", "updated_on"
-#     created_on = models.DateTimeField(auto_now_add=True)
-#     updated_on= models.DateTimeField(auto_now=True)

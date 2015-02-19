@@ -8,11 +8,10 @@ def index(request):
 def create(request):
     if request.method == 'POST': # sauvegarde des données dans la db
         title = request.POST['type']
-        donnee = request.POST['donnee']
         equation = request.POST['equation']
         grade = request.POST['grade']
-        
-        Exercise(title=title, donnee=donnee, equation=equation, grade=grade).save()
+        correction = request.POST['correction']
+        Exercise(title=title, equation=equation, grade=grade, correction=correction).save()
         
         return HttpResponseRedirect(reverse("exercises:index"))
     else:
@@ -27,7 +26,9 @@ def find(request):
     
 def resolve(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
-    return render(request, 'exercises/resolve.html', {"exercise" : exercise})
+    return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
 
-def correction(request):
-    return render(request,'exercises/correction.html')
+def correction(request, n_exercise):
+    correction = get_object_or_404(Exercise, id=n_exercise)
+    correction_line = correction.correction.split("\n")
+    return render(request,'exercises/correction.html', locals())

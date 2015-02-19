@@ -7,51 +7,60 @@
 {% block active-home %}{% endblock %}
 {% block active-create %}active{% endblock %}
 {% block content %}
-<div class="col-md-9">
-    <div class="thumbnail">
-        <div class="caption-full">
-            <h1>Création d'exercice</h1>
-            <form action="{% url 'exercises:create' %}" method="post">{% csrf_token %}
-                <div>
-                    <label for="title">Type d'exercice</label>
-                    <SELECT name="type" id='type'>
-        		        <OPTION VALUE="Factorisation 1er degré">Factorisation 1er degré</OPTION>
-        		        <OPTION VALUE="Factorisation 2eme degré">Factorisation 2eme degré</OPTION>
-        		        <OPTION VALUE="Développement 1er degré">Développement 1er degré</OPTION>
-        		        <OPTION VALUE="Développement 2eme degré">Développement 2eme degré</OPTION>
-        	        </SELECT>
-    	        </div>
-    	        <div>
-                    <label for="donnee"><br>Donnée de l'exercice</label>
-                    <textarea id="donnee" class="form-control" name="donnee"></textarea>
-                </div>
-                <div>
-                    <label for="equation">Equation à résoudre</label>
-                    <input type="text" id="equation" name="equation" class="form-control">
-                <div>
-                    <label for="grade">Difficulté</label>
-                	<SELECT name="grade">
-    	                <OPTION VALUE="1">1</OPTION>
-    	                <OPTION VALUE="2">2</OPTION>
-                		<OPTION VALUE="3">3</OPTION>
-                		<OPTION VALUE="4">4</OPTION>
-                		<OPTION VALUE="5">5</OPTION>
-                	</SELECT>
-                </div>
-                    <button type="button" id="voir" class="btn btn-sm btn-primary">Aperçu</button>
-                    <input type="submit" class="btn btn-sm btn-primary">
-                </div>
-            </form>
+<form action="{% url 'exercises:create' %}" method="post">{% csrf_token %}
+    <div class="col-md-9">
+        <div class="thumbnail">
+            <div class="caption-full">
+                <h1>Création d'exercice</h1>
+                    <div>
+                        <label for="title">Type d'exercice</label>
+                        <SELECT name="type" id='type' class="form-control">
+            		        <OPTION VALUE="Factorisation 1er degré">Factorisation 1er degré</OPTION>
+            		        <OPTION VALUE="Factorisation 2eme degré">Factorisation 2eme degré</OPTION>
+            		        <OPTION VALUE="Développement 1er degré">Développement 1er degré</OPTION>
+            		        <OPTION VALUE="Développement 2eme degré">Développement 2eme degré</OPTION>
+            	        </SELECT>
+        	        </div>
+                    <div>
+                        <label for="equation">Equation à résoudre</label>
+                        <input type="text" name="equation" class="form-control equation">
+                    <div>
+                        <label for="grade">Difficulté</label>
+                    	<SELECT name="grade" class="form-control">
+        	                <OPTION VALUE="1">1</OPTION>
+        	                <OPTION VALUE="2">2</OPTION>
+                    		<OPTION VALUE="3">3</OPTION>
+                    		<OPTION VALUE="4">4</OPTION>
+                    		<OPTION VALUE="5">5</OPTION>
+                    	</SELECT>
+                    </div>
+                        <button type="button" id="voir" class="btn btn-sm btn-primary">Faire le corrigé</button>
+                    </div>
+                
+            </div>
         </div>
     </div>
-</div>
-<div class="col-md-offset-3 col-md-9" id="apercu">
-    <div class="thumbnail">
-        <div class="caption-full">
-            <h2>Aperçu</h2>
-            <div id="donnee-apercu"></div>
-            <div id="formule"></div>
+    <div class="col-md-offset-3 col-md-9">
+        <div class="thumbnail corrigé">
+            <div class="caption-full">
+                <h1>Création de son corrigé</h1>
+                <p class="formule"></p>
+                <div>
+                    <label for="correction"><br>Développement du corrigé</label>
+                    <textarea id="correction" class="form-control" name="correction"></textarea>
+                </div>
+                <input type="submit" class="btn btn-sm btn-primary">
+            </div>
         </div>
     </div>
-</div>
+</form>
+<!--<div class="col-md-offset-3 col-md-9" id="apercu">-->
+<!--    <div class="thumbnail">-->
+<!--        <div class="caption-full">-->
+<!--            <h2>Aperçu</h2>-->
+<!--            <div id="donnee-apercu"></div>-->
+<!--            <div class="formule"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 {% endblock %}

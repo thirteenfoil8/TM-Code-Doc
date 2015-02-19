@@ -8,6 +8,9 @@
     <div class="thumbnail">
         <div class="caption-full">
             <h1>Corrigé de l'exercice</h1>
+            {% for line in correction_line %}
+                <p>$$ {{ line }} $$</p>
+            {% endfor %}
         </div>
     </div>
 </div>
