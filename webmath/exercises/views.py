@@ -26,7 +26,13 @@ def find(request):
     
 def resolve(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
-    return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
+    if request.method == 'POST' :
+        equation = request.POST['equation']
+        Exercise_done(exercise_done=exercise, equation=equation)
+        
+        return HttpResponseRedirect(reverse("exercises:find"))
+    else:
+        return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
 
 def correction(request, n_exercise):
     correction = get_object_or_404(Exercise, id=n_exercise)

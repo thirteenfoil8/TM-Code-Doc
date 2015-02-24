@@ -36,9 +36,10 @@ class Exercise(models.Model):
 # définir une nouvelle table "Hint" (indices) ==> un exo peut avoir plusieures indices.
 # Il faudrait pouvoir ordonner les indices pour un certain exercice
 
-# class Exercise_done(models.Model):
-#     do_on = models.DateTimeField(auto_now_add=True)
-#     exercise_done = models.ForeignKey(Exercise)
+class Exercise_done(models.Model):
+    do_on = models.DateTimeField(auto_now_add=True)
+    exercise_done = models.OneToOneField(Exercise)
+    equation = models.CharField(max_length = 200)
 
 # class Hint_exo(models.Model):
 #     exercise = models.ManyToManyField(Exercise)
