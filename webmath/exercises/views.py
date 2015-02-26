@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, HttpResponse
 from django.core.urlresolvers import reverse
 from exercises.models import *
 import json
@@ -43,5 +43,18 @@ def correction(request, n_exercise):
     return render(request,'exercises/correction.html', locals())
     
 def search(request):
+    search_input = request.GET["search"]
     
+    exercise = Exercise.objects.get(pk=search_input)
     
+    pk = exercise.pk
+    url = reverse("exercises:resolve", args=[exercise.pk])
+    
+    json_dict = {
+        "pk" : pk,
+        "url" : url,
+    }
+    
+    json_string = json.dumps(json_dict)
+    
+    return HttpResponse(json_string)
