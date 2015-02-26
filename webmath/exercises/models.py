@@ -20,11 +20,8 @@ class Exercise(models.Model):
     grade = models.CharField(max_length=60) # donnée une note de difficulté à l'exercice
     correction = models.CharField(max_length = 200)
     def __str__(self):
-        return self.title
+        return self.title + " " + self.owner + " " + str(self.pk)
         
-# définir une nouvelle table "Hint" (indices) ==> un exo peut avoir plusieures indices.
-# Il faudrait pouvoir ordonner les indices pour un certain exercice
-
 class Exercise_done(models.Model):
     student = models.CharField(max_length=20)
     do_on = models.DateTimeField(auto_now_add=True)
@@ -32,7 +29,4 @@ class Exercise_done(models.Model):
     equation = models.CharField(max_length = 200)
     
     def __str__(self):
-        return self.exercise_done.title + " " + self.exercise_done.owner +str(self.exercise_done.pk) + " fait par: " + self.student
-class Exercise_type(models.Model):
-    pass
-    
+        return self.exercise_done.title + " " + self.exercise_done.owner + str(self.exercise_done.pk) + " fait par: " + self.student
