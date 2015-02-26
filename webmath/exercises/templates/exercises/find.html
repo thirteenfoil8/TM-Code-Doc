@@ -3,15 +3,23 @@
 {% block title %}Résolution d'exercice{% endblock %}
 {% block active-home %}{% endblock %}
 {% block active-reso %}active{% endblock %}
+{% block head %}<script type='text/javascript' src="{% static 'exercises/js/find.js' %}"></script>{% endblock %}
 {% block content %}
 <div class="col-md-9">
     <div class="thumbnail">
         <div class="caption-full">
             <h1>Résoudre un exercice</h1>
             <ul><h4>La difficulté croît de 1 à 5</h4>
+            <div>
+                <label for="search">Entrez le nom du professeur ainsi que le numéro de l'exercice</label>
+                <input type="text" id="search_input" name="search" class="form-control">
+                <button type="button" id="search" name="search" class="btn btn-warning">Rechercher</button>
+            </div>
+            <div>
                 {% for exercise in exercises_list %}
                     <li><a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}: {{ exercise.owner }} no{{ exercise.id }} difficulté :{{ exercise.grade }}</a></li>
                 {% endfor %}
+            </div>
             </ul>
         </div>
     </div>

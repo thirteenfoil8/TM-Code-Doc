@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from exercises.models import *
+import json
 # Create your views here.
 def index(request):
     return render(request, 'exercises/index.html')
@@ -40,3 +41,7 @@ def correction(request, n_exercise):
     correction = get_object_or_404(Exercise, id=n_exercise)
     correction_line = correction.correction.split("\n")
     return render(request,'exercises/correction.html', locals())
+    
+def search(request):
+    
+    
