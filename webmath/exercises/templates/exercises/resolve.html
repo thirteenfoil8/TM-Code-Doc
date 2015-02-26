@@ -14,11 +14,14 @@
                 <p>$$ {{ exercise.equation }} $$</p>
                 <h6>crée le :{{ exercise.created_on  }}</h6>
                 <form>
-                    <textarea type="text" id="equation" name="equation" class="form-control"></textarea>
+                    <label for="student">Nom de l'élève</label>
+                    <input type="text" name="student" class="form-control">
+                    <textarea type="text" id="response" name="equation" class="form-control"></textarea>
                 </form>
+                <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
+                <a class="btn btn-sm btn-primary" href="{% url 'exercises:correction' id %}">Soumettre et aller au corrigé</a>
             </div>
-            <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
-            <a class="btn btn-sm btn-primary" href="{% url 'exercises:correction' id %}">Soumettre et aller au corrigé</a>
+
         </div>
     </div>
 </div>

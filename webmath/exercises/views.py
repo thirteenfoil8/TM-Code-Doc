@@ -11,7 +11,8 @@ def create(request):
         equation = request.POST['equation']
         grade = request.POST['grade']
         correction = request.POST['correction']
-        Exercise(title=title, equation=equation, grade=grade, correction=correction).save()
+        owner = request.POST['owner']
+        Exercise(title=title, owner=owner, equation=equation, grade=grade, correction=correction).save()
         
         return HttpResponseRedirect(reverse("exercises:index"))
     else:
@@ -27,10 +28,11 @@ def find(request):
 def resolve(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
     if request.method == 'POST' :
-        equation = request.POST['equation']
-        Exercise_done(exercise_done=exercise, equation=equation)
+        student = request.POST['student']
+        equation = request.POST['response']
+        Exercise_done(exercise_done=exercise, equation= response, student=student)
         
-        return HttpResponseRedirect(reverse("exercises:find"))
+        return HttpResponseRedirect(reverse("exercises:correction id"))
     else:
         return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
 
