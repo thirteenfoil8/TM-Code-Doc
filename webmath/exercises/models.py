@@ -28,9 +28,11 @@ class Exercise(models.Model):
 class Exercise_done(models.Model):
     student = models.CharField(max_length=20)
     do_on = models.DateTimeField(auto_now_add=True)
-    exercise_done = models.OneToOneField(Exercise)
+    exercise_done = models.ForeignKey(Exercise)
     equation = models.CharField(max_length = 200)
-
+    
+    def __str__(self):
+        return self.exercise_done.title + " " + self.exercise_done.owner +str(self.exercise_done.pk) + " fait par: " + self.student
 class Exercise_type(models.Model):
     pass
     

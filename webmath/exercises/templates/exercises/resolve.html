@@ -13,18 +13,18 @@
                 <p id ="donnee">{{ exercise.donnee }}</p>
                 <p>$$ {{ exercise.equation }} $$</p>
                 <h6>crée le :{{ exercise.created_on  }}</h6>
-                <form>
+                <form action="{% url 'exercises:resolve' id %}" method="post">{% csrf_token %}
                     <div>
                         <label for="student">Nom de l'élève</label>
                         <input type="text" name="student" class="form-control">
                     </div>
                     <div>
                         <label for="response">Résoudre l'équation</label>
-                        <textarea type="text" id="response" name="equation" class="form-control"></textarea>
+                        <textarea type="text" id="response" name="response" class="form-control"></textarea>
                     </div>
+                    <input type="submit" class="btn btn-sm btn-primary">
+                    <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
                 </form>
-                <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
-                <a class="btn btn-sm btn-primary" href="{% url 'exercises:correction' id %}">Soumettre et aller au corrigé</a>
             </div>
 
         </div>

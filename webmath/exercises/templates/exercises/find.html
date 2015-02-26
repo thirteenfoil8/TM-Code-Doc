@@ -10,7 +10,7 @@
             <h1>Résoudre un exercice</h1>
             <ul><h4>La difficulté croît de 1 à 5</h4>
                 {% for exercise in exercises_list %}
-                    <li><a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}: {{ exercise.owner }} <{{ exercise.id }}> difficulté :{{ exercise.grade }}</a></li>
+                    <li><a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}: {{ exercise.owner }} no{{ exercise.id }} difficulté :{{ exercise.grade }}</a></li>
                 {% endfor %}
             </ul>
         </div>

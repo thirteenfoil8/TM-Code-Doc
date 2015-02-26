@@ -30,9 +30,9 @@ def resolve(request, n_exercise):
     if request.method == 'POST' :
         student = request.POST['student']
         equation = request.POST['response']
-        Exercise_done(exercise_done=exercise, equation= response, student=student)
+        Exercise_done(exercise_done=exercise, equation=equation, student=student).save()
         
-        return HttpResponseRedirect(reverse("exercises:correction id"))
+        return HttpResponseRedirect(reverse("exercises:correction", args=[n_exercise]))
     else:
         return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
 
