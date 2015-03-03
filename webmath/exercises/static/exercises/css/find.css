@@ -1,0 +1,9 @@
+#false {
+    margin-top: 5px;
+    background-color: #C0392B;
+    color: #FFFFFF;
+    border-color: #C0392B;
+}
+#true {
+    margin-top: 5px;
+}

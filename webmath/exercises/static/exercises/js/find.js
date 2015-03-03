@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    $('#false').hide();
+    $('#true').hide();
     $("#search").click(function() {
         var search = $("#search_input").val();
         
