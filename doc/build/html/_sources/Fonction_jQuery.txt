@@ -1,0 +1,28 @@
+#######################
+Les fonctions de jQuery
+#######################
+
+Il existe de très nombreuses fonctions jQuery et celle-ci sont en constante augmentation
+suite au fait que toute personne voulant ajouter des plug-ins à jQuery peuvent le faire.
+Mais, il existe des fonctions de bases que presque tous le monde utilise. Ces fonctions 
+sont beaucoup plus utilisé que les autres puisqu'elles permettent de faire beaucoup de 
+manipulation sur le code HTML ou encore sur le CSS.
+
+Nous pouvons par exemple citer :
+
+*   .addClass()
+*   .animate()
+*   .fadeOut()
+*   .hide()
+Et j'en passe. 
+
+
+Il existe également des fonctions qui permettent de faire une action suite à une intéraction
+entre un élément de la page et l'utilisateur. On les appelle les "Events", en français les évènements.
+
+Les principales sont les suivantes :
+
+*   .click()
+*   .dblclick()
+*   .hover()
+*   .keypress()
