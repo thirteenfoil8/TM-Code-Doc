@@ -2,10 +2,15 @@ from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, Ht
 from django.core.urlresolvers import reverse
 from exercises.models import *
 import json
+from common.models import Teacher, Student
+from common.auth_utils import *
+from django.contrib.auth.decorators import login_required, user_passes_test
 # Create your views here.
 def index(request):
     return render(request, 'exercises/index.html')
 
+@login_required
+@user_passes_test(is_teacher)
 def create(request):
     if request.method == 'POST': # sauvegarde des données dans la db
         title = request.POST['type']
@@ -21,7 +26,8 @@ def create(request):
 
 def base(request):
     return render(request, 'exercises/base.html')
-
+    
+@login_required
 def find(request):
     latest_exercise_list = Exercise.objects.all()
     return render(request, 'exercises/find.html', {"exercises_list" : latest_exercise_list})
@@ -40,6 +46,7 @@ def resolve(request, n_exercise):
 def done(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
     exercise_done_line = exercise.equation.split("\n")
+    exercise_done_list = Exercise.objects.all()
     return render(request, 'exercises/done.html', locals())
 
 def correction(request, n_exercise):
