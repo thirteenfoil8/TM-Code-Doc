@@ -10,7 +10,6 @@ def index(request):
     return render(request, 'exercises/index.html')
 
 @login_required
-@user_passes_test(is_teacher)
 def create(request):
     if request.method == 'POST': # sauvegarde des données dans la db
         title = request.POST['type']
