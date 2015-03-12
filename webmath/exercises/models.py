@@ -3,30 +3,22 @@ from django.contrib.auth.models import User
 
 
 class Exercise(models.Model):
-    #user = models.ManyToManyField('students.Student')
     
-    # ceci veut dire qu'il n'y a forcément qu'un seul prof par exercice. C'est
-    # un choix, mais il faudrait alors une option de partage qui permettrait de
-    # partager un exercice avec d'autres profs coauteurs
-    
-    # éventuellement rajouter un champ "collaborateurs"
-    
-    # documenter les champs ==> à quoi servent-ils ???
-    owner = models.CharField(max_length=20)
-    created_on = models.DateTimeField(auto_now_add=True)
+    owner = models.CharField(max_length=20)  # créateur de l'exercice   
+    created_on = models.DateTimeField(auto_now_add=True) # Date de création
     updated_on = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=30)
-    equation = models.CharField(max_length=50)
+    title = models.CharField(max_length=30) # C'est le titre de l'exercice ( factorisation ou développement)
+    equation = models.CharField(max_length=50) # C'est l'équation entrée par le professeur
     grade = models.CharField(max_length=60) # donnée une note de difficulté à l'exercice
-    correction = models.CharField(max_length = 200)
+    correction = models.CharField(max_length = 200) # Ceci est le corrigé de l'exercice ( obligatoire )
     def __str__(self):
         return self.title + " " + self.owner + " " + str(self.pk)
         
 class Exercise_done(models.Model):
-    student = models.CharField(max_length=20)
-    do_on = models.DateTimeField(auto_now_add=True)
-    exercise_done = models.ForeignKey(Exercise)
-    equation = models.CharField(max_length = 200)
+    student = models.CharField(max_length=20)  # L'élève aillant résolu l'exercice
+    do_on = models.DateTimeField(auto_now_add=True) # La date à laquelle il l'a fait
+    exercise_done = models.ForeignKey(Exercise) # L'exercice en question qu'il a résolu
+    equation = models.CharField(max_length = 200) # Sa résolution
     
     def __str__(self):
         return self.exercise_done.title + " " + self.exercise_done.owner + str(self.exercise_done.pk) + " fait par: " + self.student
