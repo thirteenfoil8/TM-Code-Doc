@@ -23,8 +23,6 @@ def create(request):
     else:
         return render(request, 'exercises/create.html')
 
-def base(request):
-    return render(request, 'exercises/base.html')
     
 @login_required
 def find(request):
