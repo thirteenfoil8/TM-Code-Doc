@@ -43,7 +43,7 @@ def resolve(request, n_exercise):
 def done(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
     exercise_done_line = exercise.equation.split("\n")
-    exercise_done_list = Exercise.objects.all()
+    # exercise_done_list = Exercise.objects.filter(n_exercise)
     return render(request, 'exercises/done.html', locals())
 
 def correction(request, n_exercise):
