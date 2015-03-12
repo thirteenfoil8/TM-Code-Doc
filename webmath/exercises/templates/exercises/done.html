@@ -1,0 +1,20 @@
+{% extends "exercises/index.html" %}
+{% load staticfiles %}
+{% block title %}Exercice fait par les élèves{% endblock %}
+{% block active-home %}{% endblock %}
+{% block active-reso %}active{% endblock %}
+{% block content %}
+<div class="col-md-9">
+    <div class="thumbnail">
+        <div class="caption-full">
+            <div>
+                <h1> {{ exercise.equation }} </h1>
+                {% for exercise in exercises_done_list %}
+                   <h1> {{ exercise.equation }} </h1>
+                   <p>{{ exercise.student }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -37,6 +37,11 @@ def resolve(request, n_exercise):
     else:
         return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
 
+def done(request, n_exercise):
+    exercise = get_object_or_404(Exercise, id=n_exercise)
+    exercise_done_line = exercise.equation.split("\n")
+    return render(request, 'exercises/done.html', locals())
+
 def correction(request, n_exercise):
     correction = get_object_or_404(Exercise, id=n_exercise)
     correction_line = correction.correction.split("\n")
