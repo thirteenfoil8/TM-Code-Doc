@@ -6,7 +6,7 @@ L'application exercice, c'est quoi ?
 Introduction
 --------------------------------------
 
-Voici la documentation de l'application Exercice présente sur le site `suivant <https://webmath-thirteenfoil8.c9.io/exercises/>`_ . Celle-ci vous premettra de
+Voici la documentation de l'application ``Exercice`` présente sur le site `suivant <https://webmath-thirteenfoil8.c9.io/exercises/>`_ . Celle-ci vous premettra de
 pouvoir utiliser la partie création ainsi que la partie résolution des exercices de manière complète et détaillée. Cette application servira par la suite à un 
 professeur de pouvoir créer un exercice ( principalement de factorisation ou bien de calcul) et de pouvoir le mettre en ligne. Il suffira de donner le lien de
 l'exercice à l'élève pour qu'il puisse le résoudre. 
