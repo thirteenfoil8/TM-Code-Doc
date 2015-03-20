@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Permettre au professeur de créer un exercice et à un élève de le résoudre
+L'application Exercice du site Webmath
 ===========================================================
 Contenu:
 
@@ -11,8 +11,8 @@ Contenu:
    :maxdepth: 2
 
    projet_debut
-   create
-   find
+   user
+   developpeur
    
 
 Indices and tables
