@@ -44,12 +44,14 @@ def register(request):
                 user.save()
                 
                 account_model = None # Modèle à instancier pour créer le compte
-                
+                    
                 if registerform.cleaned_data["account_type"] == "student":
                     account_model = Student # Le modèle à utiliser est Student
+                    group_name = "students"
                     
                 elif registerform.cleaned_data["account_type"] == "teacher":
                     account_model = Teacher # Le modèle à utiliser est Teacher
+                    group_name = "teachers"
                     
                 account = account_model() # Instanciation du modèle
                 account.user = user # Liaison au compte user

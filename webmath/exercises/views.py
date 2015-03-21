@@ -10,6 +10,7 @@ def index(request):
     return render(request, 'exercises/index.html')
 
 @login_required
+# @user_passes_test(is_teacher)
 def create(request):
     if request.method == 'POST': # sauvegarde des données dans la db
         title = request.POST['type']
@@ -42,6 +43,10 @@ def resolve(request, n_exercise):
     else:
         return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
 
+
+
+@login_required
+# @user_passes_test(is_teacher)
 def done(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
     exercise_done_line = exercise.equation.split("\n")
