@@ -532,7 +532,7 @@ le template done.html
 
 
 
-.. rubric:: Liens externes au projet :
+.. rubric::
 
 .. [#f1] Le lien de la documentation de Python : https://docs.python.org/3/
 .. [#f2] Le lien de la documentation d'Html : http://overapi.com/html/

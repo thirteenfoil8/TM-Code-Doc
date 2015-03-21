@@ -6,7 +6,7 @@ Introduction
 Le but de l'application
 --------------------------------------
 
-Voici la documentation de l'application ``Exercice`` présente sur le site `suivant <https://webmath-thirteenfoil8.c9.io/exercises/>`_ . Celle-ci permet de
+Voici la documentation de l'application ``Exercice`` présente sur le site [#f1]_ `suivant <https://webmath-thirteenfoil8.c9.io/exercises/>`_ . Celle-ci permet de
 pouvoir utiliser la partie création ainsi que la partie résolution des exercices de manière complète et détaillée. Cette application servira par la suite à un 
 professeur de pouvoir créer un exercice de factorisation ou de développemennt et de pouvoir le mettre en ligne. Il suffira de donner le lien de
 l'exercice à l'élève pour qu'il puisse le résoudre. 
@@ -53,3 +53,7 @@ Intégration de l'application
 
 L'intégration de cette application au reste du projet ne devrait normalement pas poser trop de problèmes. La manière la plus simple de faire correspondre les exercices à des cours est
 d'utiliser les liens des exercices pour pouvoir y accéder.
+
+.. rubric::
+    
+.. [#f1] Le lien de la page d'accueil: https://webmath-thirteenfoil8.c9.io/exercises/
