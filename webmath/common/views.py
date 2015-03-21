@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from common.models import *
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.contrib.auth.models import Group
 
 def connexion(request):
     erreur = False
@@ -40,11 +41,8 @@ def register(request):
             try:
                 User.objects.get(username=username)
             except User.DoesNotExist:
-                user = User.objects.create_user(username, mail, password)
-                user.save()
-                
                 account_model = None # Modèle à instancier pour créer le compte
-                    
+                
                 if registerform.cleaned_data["account_type"] == "student":
                     account_model = Student # Le modèle à utiliser est Student
                     group_name = "students"
@@ -52,6 +50,11 @@ def register(request):
                 elif registerform.cleaned_data["account_type"] == "teacher":
                     account_model = Teacher # Le modèle à utiliser est Teacher
                     group_name = "teachers"
+                    
+                user = User.objects.create_user(username, mail, password)
+                group = Group.objects.get(name=group_name)
+                user.groups.add(group)
+                user.save()
                     
                 account = account_model() # Instanciation du modèle
                 account.user = user # Liaison au compte user

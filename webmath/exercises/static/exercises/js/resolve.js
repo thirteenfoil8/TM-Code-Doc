@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $("#submit-resolve").click(function() {
-        if ($("#student").val() && $("#response").val()) {
+        if ($("#response").val()) {
             $("#resolve-form").submit();
         }
         else {

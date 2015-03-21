@@ -18,7 +18,7 @@ class Exercise_done(models.Model):
     student = models.CharField(max_length=20)  # L'élève aillant résolu l'exercice
     do_on = models.DateTimeField(auto_now_add=True) # La date à laquelle il l'a fait
     exercise_done = models.ForeignKey(Exercise) # L'exercice en question qu'il a résolu
-    equation = models.CharField(max_length = 200) # Sa résolution
+    resolution = models.CharField(max_length = 200) # Sa résolution
     
     def __str__(self):
         return self.exercise_done.title + " " + self.exercise_done.owner + str(self.exercise_done.pk) + " fait par: " + self.student

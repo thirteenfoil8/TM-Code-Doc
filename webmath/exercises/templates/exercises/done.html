@@ -8,10 +8,17 @@
     <div class="thumbnail">
         <div class="caption-full">
             <div>
+                <h2>Voici l'équation de l'exercice {{ exercise.id }}</h2>
                 <h1> {{ exercise.equation }} </h1>
-                {% for exercise in exercises_done_list %}
-                   <h1> {{ exercise.equation }} </h1>
-                   <p>{{ exercise.student }}</p>
+                
+                {% for exercise in exercises_done %}
+                    <div class="thumbnail">
+                        <div class="caption-full">
+                           <h1> {{ exercise.resolution }} </h1>
+                           <p>{{ exercise.student }}</p>
+                          </div>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
         </div>
