@@ -3,23 +3,28 @@
 {% block title %}Exercice fait par les élèves{% endblock %}
 {% block active-home %}{% endblock %}
 {% block active-reso %}active{% endblock %}
+<link rel="stylesheet" type="text/css" href="{% static 'exercises/css/done.css' %}"/>
 {% block content %}
 <div class="col-md-9">
     <div class="thumbnail">
         <div class="caption-full">
             <div>
                 <h2>Voici l'équation de l'exercice {{ exercise.id }}</h2>
-                <h1> {{ exercise.equation }} </h1>
-                
+                <h1>$$ {{ exercise.equation }} $$</h1>
+                <h2 class="resolve">Résolution des élèves</h2>
                 {% for exercise in exercises_done %}
                     <div class="thumbnail">
                         <div class="caption-full">
-                           <h1> {{ exercise.resolution }} </h1>
-                           <p>{{ exercise.student }}</p>
-                          </div>
+                            {% for element in line %}
+                            <h2 class="resolve">$$ {{ line }} $$</h2>
+                            {% endfor %}
+                            <p>{{ exercise.student }}</p>
+                            <p>Fait le : {{ exercise.do_on }}</p>
                         </div>
                     </div>
+            </div>
                 {% endfor %}
+                <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
             </div>
         </div>
     </div>

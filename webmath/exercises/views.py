@@ -46,9 +46,10 @@ def resolve(request, n_exercise):
 @user_passes_test(is_teacher)
 def done(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
-    
     exercises_done = Exercise_done.objects.filter(exercise_done=exercise)
+    line = exercises_done.resolution.split("\n")
     return render(request, 'exercises/done.html', locals())
+
 
 def correction(request, n_exercise):
     correction = get_object_or_404(Exercise, id=n_exercise)
