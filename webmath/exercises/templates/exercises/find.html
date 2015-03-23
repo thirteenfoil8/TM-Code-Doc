@@ -11,7 +11,6 @@
     <div class="thumbnail">
         <div class="caption-full">
             <h1>Rechercher un exercice</h1>
-            <ul><h4>La difficulté croît de 1 à 5</h4>
             <div>
                 <label for="search">Entrez le numéro de l'exercice</label>
                 <input type="text" id="search_input" name="search" class="form-control">
@@ -25,10 +24,17 @@
             </div>
             <div>
                 {% for exercise in exercises_list %}
-                    <li><a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}: {{ exercise.owner }} no{{ exercise.id }} difficulté :{{ exercise.grade }}</a></li>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}: {{ exercise.owner }} no{{ exercise.id }} difficulté :{{ exercise.grade }}</a>
+                    </div>
+                    <div class="panel-body">
+                        <a id ="resolve" href="{% url 'exercises:done' exercise.id %}">Les résolutions des élèves</a>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
-            </ul>
+
         </div>
     </div>
 </div>

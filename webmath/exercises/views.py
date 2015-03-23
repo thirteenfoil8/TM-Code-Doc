@@ -10,19 +10,19 @@ def index(request):
     return render(request, 'exercises/index.html')
 
 @login_required
+@user_passes_test(is_teacher)
 def create(request):
     if request.method == 'POST': # sauvegarde des données dans la db
         title = request.POST['type']
         equation = request.POST['equation']
         grade = request.POST['grade']
         correction = request.POST['correction']
-        owner = request.POST['owner']
+        owner = request.user.username
         Exercise(title=title, owner=owner, equation=equation, grade=grade, correction=correction).save()
         
         return HttpResponseRedirect(reverse("exercises:index"))
     else:
         return render(request, 'exercises/create.html')
-
     
 @login_required
 def find(request):
@@ -32,19 +32,23 @@ def find(request):
 def resolve(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
     if request.method == 'POST' :
-        student = request.POST['student']
-        equation = request.POST['response']
-        Exercise_done(exercise_done=exercise, equation=equation, student=student).save()
+        student = request.user.username
+        resolution = request.POST['response']
+        Exercise_done(exercise_done=exercise, resolution=resolution, student=student).save()
         
         return HttpResponseRedirect(reverse("exercises:correction", args=[n_exercise]))
     else:
         return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
 
+
+@login_required
+@user_passes_test(is_teacher)
 def done(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
-    exercise_done_line = exercise.equation.split("\n")
-    # exercise_done_list = Exercise.objects.filter(n_exercise)
+    exercises_done = Exercise_done.objects.filter(exercise_done=exercise)
+
     return render(request, 'exercises/done.html', locals())
+
 
 def correction(request, n_exercise):
     correction = get_object_or_404(Exercise, id=n_exercise)

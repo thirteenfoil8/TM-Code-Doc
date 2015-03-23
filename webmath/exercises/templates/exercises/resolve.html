@@ -15,10 +15,6 @@
                 <h6>crée le :{{ exercise.created_on  }}</h6>
                 <form id="resolve-form" action="{% url 'exercises:resolve' id %}" method="post">{% csrf_token %}
                     <div>
-                        <label for="student">Nom de l'élève</label>
-                        <input id="student" type="text" name="student" class="form-control">
-                    </div>
-                    <div>
                         <label for="response">Résoudre l'équation</label>
                         <textarea type="text" id="response" name="response" class="form-control"></textarea>
                     </div>

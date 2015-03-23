@@ -2,6 +2,30 @@
 Documentation du développeur
 ####################################
 
+Cette partie de la documentation est essentiellement destinée au développeur qui aimerait comprendre comment cette application fonctionne.
+
+Tout ce qui concerne les modèles, les vues, les urls, les templates, ... est affiché ci-dessous. Le code est accompagné de quelques annotations mais celles-ci sont là 
+que pour donner quelques précisions quant à celui-ci. Il est donc nécéssaire de connaître les languages de programmation et les FrameWorks suivant pour comprendre la documentation 
+développeur: 
+
+* Les languages de programmation:
+
+    * [#f1]_ `Python <https://docs.python.org/3/>`_ 
+    
+    * [#f2]_ `Html  <http://overapi.com/html/>`_ 
+    
+    * [#f3]_ `Css  <http://overapi.com/css/>`_ 
+    
+    * [#f4]_ `Javascript  <http://overapi.com/javascript/>`_ 
+    
+* Les FrameWorks:
+
+    * [#f5]_ `Bootstrap  <http://getbootstrap.com/getting-started/>`_ 
+    
+    * [#f6]_ `jQuery  <http://overapi.com/jquery/>`_ 
+    
+    * [#f7]_ `Django  <https://docs.djangoproject.com/en/1.7/>`_ 
+    
 
 --------------------------------------
 Les modèles
@@ -10,7 +34,32 @@ Les modèles
 
 Les modèles de l'application Exercice ne sont pas très nombreux. Ils servent surtout à la création et à la résolution des exercices. ( A compléter)
 
+.. code-block:: python
 
+    from django.db import models
+    from django.contrib.auth.models import User
+    
+    
+    class Exercise(models.Model):
+        
+        owner = models.CharField(max_length=20)  # créateur de l'exercice   
+        created_on = models.DateTimeField(auto_now_add=True) # Date de création
+        updated_on = models.DateTimeField(auto_now=True)
+        title = models.CharField(max_length=30) # C'est le titre de l'exercice ( factorisation ou développement)
+        equation = models.CharField(max_length=50) # C'est l'équation entrée par le professeur
+        grade = models.CharField(max_length=60) # donnée une note de difficulté à l'exercice
+        correction = models.CharField(max_length = 200) # Ceci est le corrigé de l'exercice ( obligatoire )
+        def __str__(self):
+            return self.title + " " + self.owner + " " + str(self.pk)
+            
+    class Exercise_done(models.Model):
+        student = models.CharField(max_length=20)  # L'élève aillant résolu l'exercice
+        do_on = models.DateTimeField(auto_now_add=True) # La date à laquelle il l'a fait
+        exercise_done = models.ForeignKey(Exercise) # L'exercice en question qu'il a résolu
+        equation = models.CharField(max_length = 200) # Sa résolution
+        
+        def __str__(self):
+            return self.exercise_done.title + " " + self.exercise_done.owner + str(self.exercise_done.pk) + " fait par: " + self.student
 
 --------------------------------------
 Les vues
@@ -20,10 +69,10 @@ Les vues
 La vue create
 ......................................
 
-Pour ce qui est du code fonctionnant derrière cette partie de mon application, la difficulté se trouve surtout dans la sauvegarde des données.
+Pour ce qui est du code fonctionnant derrière cette partie de l'application, la difficulté se trouve surtout dans la sauvegarde des données.
 
-En effet, il a fallu que pour chaques balises <textarea> ou <input> permettant d'entrer les valeurs du titre, de la donnée et de l'équation puissent être enregistrer dans une variable et les enregistrer
-dans la base de donnée dans la table "Exercices". Le code qui m'a permis de faire cela se trouve dans le fichier views.py dans la vue "create".
+En effet, il faut que pour chaques données entrées dans les balises Html permettant d'entrer les valeurs du type, de l'équation et la difficulté puissent être enregistrer dans une variable et les enregistrer
+dans la base de donnée dans la table ``Exercices``. Le code permettant de faire ça se trouve dans le fichier ``views.py`` dans la vue ``create``.
 
 .. code-block:: python
     
@@ -40,9 +89,6 @@ dans la base de donnée dans la table "Exercices". Le code qui m'a permis de fai
     else:
         return render(request, 'exercises/create.html')
         
-La partie se trouvant dans le "if" permet de mettre dans des variables les valeurs récupérées. Il est a noté qu'il y a une partie else présente dans cette vue.
-Cela indique seulement que si il n'y a pas de données à enregistrer, le template se charge normalement. Dès le moment où des données sont enregistrées, l'utilisateur est renvoyé à la page d'accueil.
-Ceci permet juste que l'utilisateur ne crée pas de doublons en cliquant plusieurs fois sur "Valider" et qu'il comprenne que son exercice a bien été enregistré.
 
 ......................................
 La vue find
@@ -59,10 +105,10 @@ La vue find
 La vue resolve
 ......................................
 
-La vue resolve se trouvant dans le fichier views.py est la vue qui nous permet d'afficher un exercice dans son template resolve.html et si il n'y a pas d'exercice suite à l'url entré par l'utilisateur,
+La vue resolve se trouvant dans le fichier ``views.py`` est la vue qui permet d'afficher un exercice dans son template ``resolve.html`` et si il n'y a pas d'exercice suite à l'url entré par l'utilisateur,
 elle renvoit une erreur 404. Grâce à celle-ci, chaque exercice à sa propre page.
 
-Le code de cette vue est assez rudimentaire mais l'import ainsi que l'utilisation de "get_object_or_404" est à noter.
+Le code de cette vue est assez rudimentaire mais l'import ainsi que l'utilisation de ``get_object_or_404`` est à noter.
 
 .. code-block:: python
 
@@ -193,7 +239,7 @@ Le template de base du site
 .......................................
 
 
-Pour ce qui est du Frontend, le thème bootstrap ``shop-item`` est un thème simple nécéssitant que très peu de modifications. Il se trouve [#f1]_ `ici <http://startbootstrap.com/template-overviews/shop-item/>`_ .
+Pour ce qui est du Frontend, le thème bootstrap ``shop-item`` est un thème simple nécéssitant que très peu de modifications. Il se trouve [#f8]_ `ici <http://startbootstrap.com/template-overviews/shop-item/>`_ .
 
 Pour ce qui est de la barre latéral se trouvant à gauche des pages du site, il faut mettre des liens vers les différents template. Ceci se fait non pas en recopiant le lien
 de la page web directement mais en utilisant une formule Django simple qui permet, si il y a un changement d'url par la suite dans le fichier ``urls.py`` de faire automatiquement le changement 
@@ -212,7 +258,7 @@ le code est le suivant :
         {% endblock %}">Création d'exercice</a>
     </div>
     
-On constate qu'un block {% block active %} a été ajouté à chaque lien. Celui-ci permet d'activer la classe "list-group-item" dans la page actuel.
+On constate qu'un block ``{% block active %}`` a été ajouté à chaque lien. Celui-ci permet d'activer la classe ``list-group-item`` dans la page actuel.
 
 
 ........................................
@@ -293,7 +339,7 @@ Voici le template ``exercises/templates/create.html``.
 
 Le ``<button id="voir">`` utilise un script se trouvant sous ``exercises/js/create.js``. Ce script est codé en jQuery et permet d'afficher la deuxième partie du formulaire 
 et, grâce à la méthode ``MathJax.Hub.Queue(["Typeset", MathJax.Hub])``, de formater l'équation entrée précédement en la mettant sous une forme mathématique.
-Pour ce qui est de la documentation de Mathjax, elle se trouve [#f2]_ `ici <https://www.mathjax.org/#docs>`_ .
+Pour ce qui est de la documentation de Mathjax, elle se trouve [#f9]_ `ici <https://www.mathjax.org/#docs>`_ .
  
     
 
@@ -486,7 +532,14 @@ le template done.html
 
 
 
-.. rubric:: 
+.. rubric::
 
-.. [#f1] le lien du thème : http://startbootstrap.com/template-overviews/shop-item/
-.. [#f2] le lien de la documentation MathJax : https://www.mathjax.org/#docs
+.. [#f1] Le lien de la documentation de Python : https://docs.python.org/3/
+.. [#f2] Le lien de la documentation d'Html : http://overapi.com/html/
+.. [#f3] Le lien de la documentation de CSS : http://overapi.com/css/
+.. [#f4] Le lien de la documentation de Javascript : http://overapi.com/javascript/
+.. [#f5] Le lien de la documentation de Bootstrap : http://getbootstrap.com/getting-started/
+.. [#f6] Le lien de la documentation de jQuery : http://overapi.com/jquery/
+.. [#f7] Le lien de la documentation de Django : https://docs.djangoproject.com/en/1.7/
+.. [#f8] Le lien du thème : http://startbootstrap.com/template-overviews/shop-item/
+.. [#f9] Le lien de la documentation MathJax : https://www.mathjax.org/#docs

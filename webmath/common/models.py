@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class BaseProfile(models.Model):
     user = models.OneToOneField(User)
-    # avatar = models.ImageField(null=True, blank=True, upload_to="avatars/")
+    avatar = models.ImageField(null=True, blank=True, upload_to="avatars/")
         
     class Meta:
         abstract = True
