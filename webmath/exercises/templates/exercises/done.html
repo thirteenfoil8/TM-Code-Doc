@@ -3,27 +3,37 @@
 {% block title %}Exercice fait par les élèves{% endblock %}
 {% block active-home %}{% endblock %}
 {% block active-reso %}active{% endblock %}
+{% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'exercises/css/done.css' %}"/>
+{% endblock %}
 {% block content %}
 <div class="col-md-9">
     <div class="thumbnail">
         <div class="caption-full">
             <div>
-                <h2>Voici l'équation de l'exercice {{ exercise.id }}</h2>
-                <h1>$$ {{ exercise.equation }} $$</h1>
-                <h2 class="resolve">Résolution des élèves</h2>
+                <h2>Voici l'équation de l'exercice no{{ exercise.id }}</h2>
+                <h1 class="resolve">$$ {{ exercise.equation }} $$</h1>
+                <h2 id="titre">Résolution des élèves</h2>
+                {% if exercises_done %}
                 {% for exercise in exercises_done %}
                     <div class="thumbnail">
                         <div class="caption-full">
-                            {% for element in exercise.resolution.split("\n") %}
+                            <h2>{{ exercise.student }}</h2>
+                            {% for element in exercise.get_lines %}
                             <h2 class="resolve">$$ {{ element }} $$</h2>
                             {% endfor %}
-                            <p>{{ exercise.student }}</p>
-                            <p>Fait le : {{ exercise.do_on }}</p>
+                            <p id="date">Fait le : {{ exercise.do_on }}</p>
                         </div>
                     </div>
-            </div>
                 {% endfor %}
+                {% else %}
+                <div class="thumbnail">
+                    <div class="caption-full">
+                        <h4 class="resolve">Aucune résolution effectuée pour cet exercice</h4>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
                 <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
             </div>
         </div>
