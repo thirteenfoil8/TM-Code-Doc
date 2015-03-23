@@ -47,7 +47,7 @@ def resolve(request, n_exercise):
 def done(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
     exercises_done = Exercise_done.objects.filter(exercise_done=exercise)
-    line = exercises_done.resolution.split("\n")
+    # line = exercise_done.resolution.split("\n")
     return render(request, 'exercises/done.html', locals())
 
 

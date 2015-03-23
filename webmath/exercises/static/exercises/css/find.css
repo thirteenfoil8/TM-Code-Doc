@@ -6,6 +6,8 @@
 }
 #true {
     margin-top: 5px;
+    color: black;
+    
 }
 
 #resolve {
@@ -15,3 +17,4 @@
 #search {
     margin-bottom: 5px;
 }
+

@@ -15,8 +15,8 @@
                 {% for exercise in exercises_done %}
                     <div class="thumbnail">
                         <div class="caption-full">
-                            {% for element in line %}
-                            <h2 class="resolve">$$ {{ line }} $$</h2>
+                            {% for element in exercise.resolution.split("\n") %}
+                            <h2 class="resolve">$$ {{ element }} $$</h2>
                             {% endfor %}
                             <p>{{ exercise.student }}</p>
                             <p>Fait le : {{ exercise.do_on }}</p>
