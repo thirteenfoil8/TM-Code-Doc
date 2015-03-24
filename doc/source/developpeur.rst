@@ -42,24 +42,27 @@ Les modèles de l'application Exercice ne sont pas très nombreux. Ils servent s
     
     class Exercise(models.Model):
         
-        owner = models.CharField(max_length=20)  # créateur de l'exercice   
-        created_on = models.DateTimeField(auto_now_add=True) # Date de création
+        owner = models.CharField(max_length=20)  
+        created_on = models.DateTimeField(auto_now_add=True)
         updated_on = models.DateTimeField(auto_now=True)
-        title = models.CharField(max_length=30) # C'est le titre de l'exercice ( factorisation ou développement)
-        equation = models.CharField(max_length=50) # C'est l'équation entrée par le professeur
-        grade = models.CharField(max_length=60) # donnée une note de difficulté à l'exercice
-        correction = models.CharField(max_length = 200) # Ceci est le corrigé de l'exercice ( obligatoire )
+        title = models.CharField(max_length=30)
+        equation = models.CharField(max_length=50)
+        grade = models.CharField(max_length=60) 
+        correction = models.CharField(max_length = 200)
         def __str__(self):
             return self.title + " " + self.owner + " " + str(self.pk)
             
     class Exercise_done(models.Model):
-        student = models.CharField(max_length=20)  # L'élève aillant résolu l'exercice
-        do_on = models.DateTimeField(auto_now_add=True) # La date à laquelle il l'a fait
-        exercise_done = models.ForeignKey(Exercise) # L'exercice en question qu'il a résolu
-        equation = models.CharField(max_length = 200) # Sa résolution
+        student = models.CharField(max_length=20)
+        do_on = models.DateTimeField(auto_now_add=True)
+        exercise_done = models.ForeignKey(Exercise)
+        resolution = models.CharField(max_length = 200)
         
         def __str__(self):
             return self.exercise_done.title + " " + self.exercise_done.owner + str(self.exercise_done.pk) + " fait par: " + self.student
+            
+        def get_lines(self):
+            return self.resolution.split("\n")
 
 --------------------------------------
 Les vues
@@ -77,17 +80,19 @@ dans la base de donnée dans la table ``Exercices``. Le code permettant de faire
 .. code-block:: python
     
     @login_required
+    @user_passes_test(is_teacher)
     def create(request):
-    if request.method == 'POST': # sauvegarde des données dans la db
-        title = request.POST['title']
-        donnee = request.POST['donnee']
-        equation = request.POST['equation']
-        
-        Exercise(title=title, donnee=donnee, equation=equation).save()
-        
-        return HttpResponseRedirect(reverse("exercises:index"))
-    else:
-        return render(request, 'exercises/create.html')
+        if request.method == 'POST': # sauvegarde des données dans la db
+            title = request.POST['type']
+            equation = request.POST['equation']
+            grade = request.POST['grade']
+            correction = request.POST['correction']
+            owner = request.user.username
+            Exercise(title=title, owner=owner, equation=equation, grade=grade, correction=correction).save()
+            
+            return HttpResponseRedirect(reverse("exercises:index"))
+        else:
+            return render(request, 'exercises/create.html')
         
 
 ......................................
@@ -146,10 +151,11 @@ La vue done
 
 .. code-block:: python
 
+    @login_required
+    @user_passes_test(is_teacher)
     def done(request, n_exercise):
         exercise = get_object_or_404(Exercise, id=n_exercise)
-        exercise_done_line = exercise.equation.split("\n")
-        exercise_done_list = Exercise.objects.all()
+        exercises_done = Exercise_done.objects.filter(exercise_done=exercise)
         return render(request, 'exercises/done.html', locals())
 
 
@@ -275,9 +281,10 @@ Voici le template ``exercises/templates/create.html``.
 
     {% extends "exercises/index.html" %}
     {% load staticfiles %}
-
+    
     {% block head %}<script type='text/javascript' src="{% static 'exercises/js/create.js' %}"></script>{% endblock %}
     {% block title %}Création d'exercice{% endblock %}
+    
     {% block active-home %}{% endblock %}
     {% block active-create %}active{% endblock %}
     {% block content %}
@@ -295,10 +302,6 @@ Voici le template ``exercises/templates/create.html``.
                 		        <OPTION VALUE="Développement du 2eme degré">Développement du 2eme degré</OPTION>
                 	        </SELECT>
             	        </div>
-                        <div>
-                            <label for="owner">Nom du professeur</label>
-                            <input type="text" name="owner" class="form-control">
-                        </div>
                         <div>
                             <label for="equation">Equation à résoudre</label>
                             <input type="text" name="equation" class="form-control equation">
@@ -382,7 +385,6 @@ Voici le template:
         <div class="thumbnail">
             <div class="caption-full">
                 <h1>Rechercher un exercice</h1>
-                <ul><h4>La difficulté croît de 1 à 5</h4>
                 <div>
                     <label for="search">Entrez le numéro de l'exercice</label>
                     <input type="text" id="search_input" name="search" class="form-control">
@@ -396,10 +398,17 @@ Voici le template:
                 </div>
                 <div>
                     {% for exercise in exercises_list %}
-                        <li><a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}: {{ exercise.owner }} no{{ exercise.id }} difficulté :{{ exercise.grade }}</a></li>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}: {{ exercise.owner }} no{{ exercise.id }} difficulté :{{ exercise.grade }}</a>
+                        </div>
+                        <div class="panel-body">
+                            <a id ="resolve" href="{% url 'exercises:done' exercise.id %}">Les résolutions des élèves</a>
+                        </div>
+                    </div>
                     {% endfor %}
                 </div>
-                </ul>
+    
             </div>
         </div>
     </div>
@@ -467,10 +476,6 @@ Le template resolve.html
                     <h6>crée le :{{ exercise.created_on  }}</h6>
                     <form id="resolve-form" action="{% url 'exercises:resolve' id %}" method="post">{% csrf_token %}
                         <div>
-                            <label for="student">Nom de l'élève</label>
-                            <input id="student" type="text" name="student" class="form-control">
-                        </div>
-                        <div>
                             <label for="response">Résoudre l'équation</label>
                             <textarea type="text" id="response" name="response" class="form-control"></textarea>
                         </div>
@@ -529,7 +534,50 @@ le template correction.html
 le template done.html
 .........................
 
-
+.. code-block:: html
+    
+    {% extends "exercises/index.html" %}
+    {% load staticfiles %}
+    {% block title %}Exercice fait par les élèves{% endblock %}
+    {% block active-home %}{% endblock %}
+    {% block active-reso %}active{% endblock %}
+    {% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'exercises/css/done.css' %}"/>
+    {% endblock %}
+    {% block content %}
+    <div class="col-md-9">
+        <div class="thumbnail">
+            <div class="caption-full">
+                <div>
+                    <h2>Voici l'équation de l'exercice no{{ exercise.id }}</h2>
+                    <h1 class="resolve">$$ {{ exercise.equation }} $$</h1>
+                    <h2 id="titre">Résolution des élèves</h2>
+                    {% if exercises_done %}
+                    {% for exercise in exercises_done %}
+                        <div class="thumbnail">
+                            <div class="caption-full">
+                                <h2>{{ exercise.student }}</h2>
+                                {% for element in exercise.get_lines %}
+                                <h2 class="resolve">$$ {{ element }} $$</h2>
+                                {% endfor %}
+                                <p id="date">Fait le : {{ exercise.do_on }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="thumbnail">
+                        <div class="caption-full">
+                            <h4 class="resolve">Aucune résolution effectuée pour cet exercice</h4>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                    <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
 
 
 .. rubric::
