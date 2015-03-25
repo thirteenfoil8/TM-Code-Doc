@@ -35,6 +35,7 @@ Les modèles
 Les modèles de l'application Exercice ne sont pas très nombreux. Ils servent surtout à la création et à la résolution des exercices. ( A compléter)
 
 .. code-block:: python
+    :linenos:
 
     from django.db import models
     from django.contrib.auth.models import User
@@ -78,6 +79,7 @@ En effet, il faut que pour chaques données entrées dans les balises Html perme
 dans la base de donnée dans la table ``Exercices``. Le code permettant de faire ça se trouve dans le fichier ``views.py`` dans la vue ``create``.
 
 .. code-block:: python
+    :linenos:
     
     @login_required
     @user_passes_test(is_teacher)
@@ -100,6 +102,7 @@ La vue find
 ......................................
 
 .. code-block:: python
+    :linenos:
 
     @login_required
     def find(request):
@@ -116,17 +119,19 @@ elle renvoit une erreur 404. Grâce à celle-ci, chaque exercice à sa propre pa
 Le code de cette vue est assez rudimentaire mais l'import ainsi que l'utilisation de ``get_object_or_404`` est à noter.
 
 .. code-block:: python
+    :linenos:
 
+    @login_required    
     def resolve(request, n_exercise):
-    exercise = get_object_or_404(Exercise, id=n_exercise)
-    if request.method == 'POST' :
-        student = request.POST['student']
-        equation = request.POST['response']
-        Exercise_done(exercise_done=exercise, equation=equation, student=student).save()
-        
-        return HttpResponseRedirect(reverse("exercises:correction", args=[n_exercise]))
-    else:
-        return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
+        exercise = get_object_or_404(Exercise, id=n_exercise)
+        if request.method == 'POST' :
+            student = request.user.username
+            resolution = request.POST['response']
+            Exercise_done(exercise_done=exercise, resolution=resolution, student=student).save()
+            
+            return HttpResponseRedirect(reverse("exercises:correction", args=[n_exercise]))
+        else:
+            return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
     
 
 
@@ -137,6 +142,7 @@ La vue correction
 
 
 .. code-block:: python
+    :linenos:
 
     def correction(request, n_exercise):
         correction = get_object_or_404(Exercise, id=n_exercise)
@@ -150,6 +156,7 @@ La vue done
 
 
 .. code-block:: python
+    :linenos:
 
     @login_required
     @user_passes_test(is_teacher)
@@ -166,6 +173,7 @@ La vue search
 
 
 .. code-block:: python
+    :linenos:
 
     def search(request):
         search_input = request.GET["search"]
@@ -197,6 +205,7 @@ Les urls de la racine du projet
 
 
 .. code-block:: python
+    :linenos:
 
     from django.conf.urls import patterns, include, url
     from django.contrib import admin 
@@ -218,6 +227,7 @@ Les urls de l'application exercises
 
 
 .. code-block:: python
+    :linenos:
 
     from django.conf.urls import patterns, include, url
     from django.contrib import admin
@@ -247,13 +257,123 @@ Le template de base du site
 
 Pour ce qui est du Frontend, le thème bootstrap ``shop-item`` est un thème simple nécéssitant que très peu de modifications. Il se trouve [#f8]_ `ici <http://startbootstrap.com/template-overviews/shop-item/>`_ .
 
+Le code du template de base est le suivant:
+
+.. code-block:: html
+    :linenos:
+    
+    {% load staticfiles %}
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+    
+        <title>{% block title %}Accueil{% endblock %}</title>
+    
+        <!-- Custom CSS -->
+        <link href="{% static 'exercises/css/shop-item.css' %}" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" >
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="{% static 'exercises/css/style.css' %}">
+        
+        {% block head %}{% endblock %}
+    
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    
+    </head>
+    
+    <body>
+    
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Webmath</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#">Cours</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'exercises:index' %}">Exercices</a>
+                        </li>
+                        <li>
+                            <a href="http://quiztm-2014-2-blm08.c9.io/quiz/create/">Quiz</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+    
+        <!-- Page Content -->
+        <div class="container">
+    
+            <div class="row">
+    
+                <div class="col-md-3">
+                    <p class="lead">Exercices</p>
+                    <div class="list-group">
+                        <a href="{% url 'exercises:index' %}" class="list-group-item {% block active-home %}active{% endblock %}">Accueil</a>
+                        <a href="{% url 'exercises:find' %}" class="list-group-item {% block active-reso %}{% endblock %}">Rechercher un exercice</a>
+                        <a href="{% url 'exercises:create' %}" class="list-group-item {% block active-create %}{% endblock %}">Création d'exercice</a>
+                    </div>
+                </div>
+    
+                {% block content %}
+                <div class="col-md-9">
+    
+                    <div class="thumbnail">
+                        <div class="caption-full">
+                            <h1>Bienvenue!</h1>
+                            <p>Bienvenue sur la page de l'application des exercices de Webmath. Cliquez sur un des onglets selon la fonctionnalité que vous voulez utiliser.</p>
+                        </div>
+                    </div>
+                </div>
+                {% endblock %}
+    
+            </div>
+    
+        </div>
+    </body>
+    
+    </html>
+
 Pour ce qui est de la barre latéral se trouvant à gauche des pages du site, il faut mettre des liens vers les différents template. Ceci se fait non pas en recopiant le lien
 de la page web directement mais en utilisant une formule Django simple qui permet, si il y a un changement d'url par la suite dans le fichier ``urls.py`` de faire automatiquement le changement 
-pour éviter les erreurs de redirection. 
+pour éviter les erreurs de redirection.
 
 le code est le suivant :
 
-.. code-block:: python
+.. code-block:: html
+    :linenos:
 
     <div class="list-group">
         <a href="{% url 'exercises:index' %}" class="list-group-item {% block active-home %}
@@ -278,6 +398,7 @@ la présence de la balise ``<form>`` est absolument nécéssaire. Toutes les don
 Voici le template ``exercises/templates/create.html``.
 
 .. code-block:: html
+    :linenos:
 
     {% extends "exercises/index.html" %}
     {% load staticfiles %}
@@ -349,6 +470,7 @@ Pour ce qui est de la documentation de Mathjax, elle se trouve [#f9]_ `ici <http
 Le voici:
 
 .. code-block:: javascript
+    :linenos:
 
     $(document).ready(function() {
         $( ".corrigé" ).hide();
@@ -371,6 +493,7 @@ Le template de cette page se trouve sous le fichier ``static/exercises/templates
 Voici le template:
 
 .. code-block:: html
+    :linenos:
 
     {% extends "exercises/index.html" %}
     {% load staticfiles %}
@@ -419,6 +542,7 @@ Grâce au script de cette page se trouvant dans ``static/exercises/js/find.js``,
 ajax pour les formater et les mettre en page en utilisant le code suivant:
 
 .. code-block :: javascript
+    :linenos:
 
     $(document).ready(function() {
         $('#false').hide();
@@ -458,6 +582,7 @@ Le template resolve.html
 
 
 .. code-block:: html
+    :linenos:
 
     {% extends "exercises/index.html" %}
     {% load staticfiles %}
@@ -483,7 +608,6 @@ Le template resolve.html
                         <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
                     </form>
                 </div>
-    
             </div>
         </div>
     </div>
@@ -510,6 +634,7 @@ le template correction.html
 .......................
 
 .. code-block:: html
+    :linenos:
 
     {% extends "exercises/index.html" %}
     {% load staticfiles %}
@@ -530,11 +655,14 @@ le template correction.html
     </div>
     {% endblock %}
 
+
 .........................
 le template done.html
 .........................
 
+
 .. code-block:: html
+    :linenos:
     
     {% extends "exercises/index.html" %}
     {% load staticfiles %}

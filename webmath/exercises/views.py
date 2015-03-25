@@ -28,7 +28,8 @@ def create(request):
 def find(request):
     latest_exercise_list = Exercise.objects.all()
     return render(request, 'exercises/find.html', {"exercises_list" : latest_exercise_list})
-    
+
+@login_required    
 def resolve(request, n_exercise):
     exercise = get_object_or_404(Exercise, id=n_exercise)
     if request.method == 'POST' :
