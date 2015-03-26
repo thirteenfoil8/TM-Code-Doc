@@ -47,7 +47,7 @@ Les modèles
         le titre de l'exercice : ``title`` ( celui-ci ne possède que 4 choix présents dans le template ``create.html`` présent plus bas dans la documentation ), 
         l'équation que l'élève devra traîter : ``equation``, la difficulté de l'exercice : ``grade`` ( choisi entre 1 et 5 également dans ``create.html`` ), 
         et enfin la correction de l'exercice : ``correction``.
-        La fonction ``def __str__(self)`` sert uniquement à rendre quelque chose de plus propre sur la [#f8]_ `page <http://webmath-thirteenfoil8.c9.io/admin/>`_ prévue pour les admins du site.
+        La fonction ``def __str__(self)`` sert uniquement à rendre quelque chose de plus propre sur la `page <http://webmath-thirteenfoil8.c9.io/admin/>`_ [#f9]_ prévue pour les admins du site.
     
     * ``Exercise_done``
         
@@ -269,10 +269,15 @@ Les urls
 --------------------------------------
 
 
+
 ......................................
 Les urls de la racine du projet
 ......................................
 
+Les urls du code suivant servent tout simplement à indiquer les urls de base de l'application. Cela veut dire que suite à l'url http://webmath-thirteenfoil8.c9.io/ [#f10]_ , 
+un simple rajout d'un des urls suivants, c'est à dire : ``admin``, ``exercises``, ``common`` ou ``permission``, amenera l'utilisateur directement à la base d'une des applications du projet.
+À cela, il faut signaler la présence de la fonction ``include()`` permet à chaque urls présent dans les applications de pouvoir s'ajouter à l'url de base. Les urls de l'application ``exercises``
+sont expliqués dans la rubrique suivante.
 
 .. code-block:: python
     :linenos:
@@ -295,18 +300,42 @@ Les urls de la racine du projet
 Les urls de l'application exercises
 ......................................
 
+Tout d'abord, on importe les vues qui seront utilisées dans l'application. Pour cela, on indique dans quel répertoire les vues se trouvent(cf. ligne3). 
+Par convention, on nomme les urls d'un application du même nom que son template et de sa vue.
+Pour les urls suivants, dès qu'il y a la présence de ``(\d+)/``, cela appelera la vue sur laquelle l'url dirige en utilisant le nombre entré à la suite de 
+``/exercices/X`` ( ou X est un des urls situés ci-dessous ) comme valeur de l'argument ``n_exercise``. 
+Par exemple, ``/exercices/done/1`` retournera la page des résolutions de l'exercice numéro 1, si l'exercice n'existe pas, la fonction ``get_object_or_404`` 
+affichera une page d'erreur.
+
+
+1. ``url(r'^$', index, name="index")`` renvoie la page d'accueil du site.
+
+2. ``url(r'^create/$', create, name="create"),`` renvoie la page de création d'exercices, accessible que par les professeurs.
+
+3. ``url(r'^find/$', find, name="find"),`` renvoie la page de recherche des exercices.
+
+4. ``url(r'^done/(\d+)/$', done, name="done"),`` renvoie la page comportant les résolutions des élèves par rapport à un exercice.
+
+5. ``url(r'^resolve/(\d+)/$', resolve, name="resolve"),`` renvoie la page de résolutions d'un exercice.
+
+6. ``url(r'^correction/(\d+)/$', correction, name='correction'),`` renvoie la page de correction d'un exercice.
+
+7. ``url(r'^search/', search, name="search"),`` ne renvoie aucune page visible par l'utilisateur mais sert à afficher les données qui seront récupérées par la requête Ajax pour 
+la recherche d'un exercice.
+
+
+
 
 .. code-block:: python
     :linenos:
 
     from django.conf.urls import patterns, include, url
     from django.contrib import admin
-    from exercises.views import index, create, base, find, resolve, correction, search, done
+    from exercises.views import index, create, find, resolve, correction, search, done
     
     urlpatterns = patterns('',
         url(r'^$', index, name="index"),
         url(r'^create/$', create, name="create"),
-        url(r'^base/$', base, name="base"),
         url(r'^find/$', find, name="find"),
         url(r'^done/(\d+)/$', done, name="done"),
         url(r'^resolve/(\d+)/$', resolve, name="resolve"),
@@ -325,7 +354,7 @@ Le template de base du site
 .......................................
 
 
-Pour ce qui est du Frontend, le thème bootstrap ``shop-item`` est un thème simple nécéssitant que très peu de modifications. Il se trouve [#f10]_ `ici <http://startbootstrap.com/template-overviews/shop-item/>`_ .
+Pour ce qui est du Frontend, le thème bootstrap ``shop-item`` est un thème simple nécéssitant que très peu de modifications. Il se trouve `ici <http://startbootstrap.com/template-overviews/shop-item/>`_ [#f11]_ .
 
 Le code du template de base est le suivant:
 
@@ -533,7 +562,7 @@ Voici le template ``exercises/templates/create.html``.
 
 Le ``<button id="voir">`` utilise un script se trouvant sous ``exercises/js/create.js``. Ce script est codé en jQuery et permet d'afficher la deuxième partie du formulaire 
 et, grâce à la méthode ``MathJax.Hub.Queue(["Typeset", MathJax.Hub])``, de formater l'équation entrée précédement en la mettant sous une forme mathématique.
-Pour ce qui est de la documentation de Mathjax, elle se trouve [#f11]_ `ici <https://www.mathjax.org/#docs>`_ .
+Pour ce qui est de la documentation de Mathjax, elle se trouve `ici <https://www.mathjax.org/#docs>`_ [#f12]_ .
  
     
 
@@ -788,5 +817,6 @@ le template done.html
 .. [#f7] Le lien de la documentation de jQuery : http://overapi.com/jquery/
 .. [#f8] Le lien de la documentation de Django : https://docs.djangoproject.com/en/1.7/
 .. [#f9] Le lien vers la page admin: http://webmath-thirteenfoil8.c9.io/admin/
-.. [#f10] Le lien du thème : http://startbootstrap.com/template-overviews/shop-item/
-.. [#f11] Le lien de la documentation MathJax : https://www.mathjax.org/#docs
+.. [#f10] Le lien vers la page de base du projet: http://webmath-thirteenfoil8.c9.io/
+.. [#f11] Le lien du thème : http://startbootstrap.com/template-overviews/shop-item/
+.. [#f12] Le lien de la documentation MathJax : https://www.mathjax.org/#docs

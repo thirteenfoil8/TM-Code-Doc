@@ -8,7 +8,7 @@ Approche personnelle par rapport à l'application dans le séminaire
 
 Suite à la lecture des sujets de travail de maturité, je me suis senti particulièrement intéressé par le sujet de l'informatique. 
 En effet, depuis mon plus jeune âge, le monde de l'informatique et de la technologie font partie intégrante de ma vie. De plus, 
-le sujet de ce travail de maturité étant *Conception d'une plateforme de e-learning* concernant surtout les mathématiques a joué un rôle 
+le sujet de ce travail de maturité étant *Développement d'une plateforme Web d'e-learning* concernant surtout les mathématiques a joué un rôle 
 important dans mon choix car les mathématiques sont un domaine complexe et très intéressant. De ce fait, ce travail de maturité était parfait pour moi 
 en ce qui concerne ma curiosité et mon envie d'en apprendre plus sur l'informatique.
  
