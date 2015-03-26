@@ -6,7 +6,6 @@ class Exercise(models.Model):
     
     owner = models.CharField(max_length=20)  
     created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=30)
     equation = models.CharField(max_length=50)
     grade = models.CharField(max_length=60) 

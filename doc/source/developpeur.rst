@@ -3,80 +3,132 @@ Documentation du développeur
 ####################################
 
 Cette partie de la documentation est essentiellement destinée au développeur qui aimerait comprendre comment cette application fonctionne.
+Il est a noté que le projet contenant l'entier des fichiers est sur un `dépôt <https://github.com/thirteenfoil8/TM-Code-Doc>`_ [#f1]_ GitHub.
 
 Tout ce qui concerne les modèles, les vues, les urls, les templates, ... est affiché ci-dessous. Le code est accompagné de quelques annotations mais celles-ci sont là 
-que pour donner quelques précisions quant à celui-ci. Il est donc nécéssaire de connaître les languages de programmation et les FrameWorks suivant pour comprendre la documentation 
+que pour donner quelques précisions quant à celui-ci. Il est donc nécéssaire de connaître les languages de programmation et les frameworks suivant pour comprendre la documentation 
 développeur: 
 
 * Les languages de programmation:
 
-    * [#f1]_ `Python <https://docs.python.org/3/>`_ 
-    
-    * [#f2]_ `Html  <http://overapi.com/html/>`_ 
-    
-    * [#f3]_ `Css  <http://overapi.com/css/>`_ 
-    
-    * [#f4]_ `Javascript  <http://overapi.com/javascript/>`_ 
+  * `Python <https://docs.python.org/3/>`_ [#f2]_
+  
+  * `Html  <http://overapi.com/html/>`_ [#f3]_ 
+  
+  * `Css  <http://overapi.com/css/>`_ [#f4]_
+  
+  * `Javascript  <http://overapi.com/javascript/>`_ [#f5]_
     
 * Les FrameWorks:
 
-    * [#f5]_ `Bootstrap  <http://getbootstrap.com/getting-started/>`_ 
-    
-    * [#f6]_ `jQuery  <http://overapi.com/jquery/>`_ 
-    
-    * [#f7]_ `Django  <https://docs.djangoproject.com/en/1.7/>`_ 
-    
+  * `Bootstrap  <http://getbootstrap.com/getting-started/>`_ [#f6]_ 
+  
+  * `jQuery  <http://overapi.com/jquery/>`_ [#f7]_ 
+  
+  * `Django  <https://docs.djangoproject.com/en/1.7/>`_ [#f8]_ 
+  
+  
+
+
+.. raw:: latex
+
+    \pagebreak
+
+
 
 --------------------------------------
 Les modèles
 --------------------------------------
 
-
-Les modèles de l'application Exercice ne sont pas très nombreux. Ils servent surtout à la création et à la résolution des exercices. ( A compléter)
-
-.. code-block:: python
-    :linenos:
-
-    from django.db import models
-    from django.contrib.auth.models import User
-    
-    
-    class Exercise(models.Model):
+1. Les modèles de cette application sont les suivants:
+    * ``Exercise``
         
-        owner = models.CharField(max_length=20)  
-        created_on = models.DateTimeField(auto_now_add=True)
-        updated_on = models.DateTimeField(auto_now=True)
-        title = models.CharField(max_length=30)
-        equation = models.CharField(max_length=50)
-        grade = models.CharField(max_length=60) 
-        correction = models.CharField(max_length = 200)
-        def __str__(self):
-            return self.title + " " + self.owner + " " + str(self.pk)
-            
-    class Exercise_done(models.Model):
-        student = models.CharField(max_length=20)
-        do_on = models.DateTimeField(auto_now_add=True)
-        exercise_done = models.ForeignKey(Exercise)
-        resolution = models.CharField(max_length = 200)
+        Ce modèle contient les informations relatives à un exercice en particulier. Il contient le nom du créateur : ``owner``, la date de création : ``created_on``, 
+        le titre de l'exercice : ``title`` ( celui-ci ne possède que 4 choix présents dans le template ``create.html`` présent plus bas dans la documentation ), 
+        l'équation que l'élève devra traîter : ``equation``, la difficulté de l'exercice : ``grade`` ( choisi entre 1 et 5 également dans ``create.html`` ), 
+        et enfin la correction de l'exercice : ``correction``.
+        La fonction ``def __str__(self)`` sert uniquement à rendre quelque chose de plus propre sur la [#f8]_ `page <http://webmath-thirteenfoil8.c9.io/admin/>`_ prévue pour les admins du site.
+    
+    * ``Exercise_done``
         
-        def __str__(self):
-            return self.exercise_done.title + " " + self.exercise_done.owner + str(self.exercise_done.pk) + " fait par: " + self.student
+        Ce modèle contient les informations concernant une résolution à un exercice fait par un élève. Il contient le nom de l'élève : ``student``, la date à laquelle l'élève a fait l'exercice : 
+        ``do_on``, l'exercice auquel la résolution fait référence : ``exercise_done`` et la résolution de l'élève : ``resolution``.
+        La fonction ``def __str__(self)`` a le même but que pour la table ``Exercise```. Pour ce qui est de la fonction ``def get_lines(self):`` nous permet de retourner une liste avec chaque ligne 
+        de la résolution de l'élève. Cette fonction sera utile dans le template ``done.html`` par la suite. 
+
+2. La relation:
+
+  .. figure:: figures/DiagrammeUML.png
+    :align: center
+    
+    *Diagramme UML du modèle relationnel*
+
+
+C'est deux modèles sont relié entre eux grâce à une ``ForeignKey`` qui est présente dans la table ``Exercise_done``. Cela signifie qu'un exercice peut posséder plusieurs résolution, 
+mais qu'une résolution ne fait partie que d'un exercice.
+
+.. raw:: latex
+
+    \pagebreak
+
+3. Le code:
+
+    .. code-block:: python
+        :linenos:
+    
+        from django.db import models
+        from django.contrib.auth.models import User
+        
+        
+        class Exercise(models.Model):
             
-        def get_lines(self):
-            return self.resolution.split("\n")
+            owner = models.CharField(max_length=20)  
+            created_on = models.DateTimeField(auto_now_add=True)
+            title = models.CharField(max_length=30)
+            equation = models.CharField(max_length=50)
+            grade = models.CharField(max_length=60) 
+            correction = models.CharField(max_length = 200)
+            def __str__(self):
+                return self.title + " " + self.owner + " " + str(self.pk)
+                
+        class Exercise_done(models.Model):
+            student = models.CharField(max_length=20)
+            do_on = models.DateTimeField(auto_now_add=True)
+            exercise_done = models.ForeignKey(Exercise)
+            resolution = models.CharField(max_length = 200)
+            
+            def __str__(self):
+                return self.exercise_done.title + " " + self.exercise_done.owner + str(self.exercise_done.pk) + " fait par: " + self.student
+                
+            def get_lines(self):
+                return self.resolution.split("\n")
 
 --------------------------------------
 Les vues
 --------------------------------------
 
+Le concept des « vues » est la base de la logique responsable du traitement des requêtes des utilisateurs et le renvoi des réponses vers un template.
+Toutes les vues en lien avec cette application se trouve dans ``MainProject/webmath/exercises/views.py``.
+Par la suite, deux points seront assez récurrents:
+
+1. L'appel ``@login_required``:
+    Cette appel là permet de demander à l'utilisateur d'être connecté pour pouvoir aller sur la page en question.
+
+2. L'appel ``@user_passes_test(is_teacher)``:
+    Cette appel est plus strict et sert à préciser que seul un professeur peut se diriger vers la page.
+    
+Ces deux appels viennent des applications common et permission qui servent à gerer les authentifications et les permissions d'un utilisateur.
+
 ......................................
 La vue create
 ......................................
 
-Pour ce qui est du code fonctionnant derrière cette partie de l'application, la difficulté se trouve surtout dans la sauvegarde des données.
+Pour ce qui est de la vue fonctionnant derrière ``create.html``, la difficulté se trouve surtout dans la sauvegarde des données.
 
-En effet, il faut que pour chaques données entrées dans les balises Html permettant d'entrer les valeurs du type, de l'équation et la difficulté puissent être enregistrer dans une variable et les enregistrer
-dans la base de donnée dans la table ``Exercices``. Le code permettant de faire ça se trouve dans le fichier ``views.py`` dans la vue ``create``.
+En effet, il faut que chaque données entrées dans les balises du template ``create.html`` puissent être assignées et enregistrer plus tard dans la base de données. Les données seront appliquées à la table ``Exercices``. Ces données seront récupérées plus tard 
+dans l'ensemble des vues de l'application.
+
+Le code permettant de faire ça se trouve dans la vue ``create``.
 
 .. code-block:: python
     :linenos:
@@ -95,11 +147,18 @@ dans la base de donnée dans la table ``Exercices``. Le code permettant de faire
             return HttpResponseRedirect(reverse("exercises:index"))
         else:
             return render(request, 'exercises/create.html')
-        
+
+Dans cette vue, la difficulté se trouve principalement dans l'enregistrement des données. A la ligne 4, la condition ``if`` permet de différencier si un enregistrement des 
+données est nécéssaire et dans le cas contraire, c'est le template ``create.html`` qui sera affiché à l'utilisateur.
+Dans le cas où un enregistrement des données est demandé par l'utilisateur, celles-ci sont assignées à différentes variables (``title``, ``equation``, ``grade``, ``correction``, 
+``owner``) puis instanciées au modèle ``Exercise`` auquel on applique la fonction ``.save()`` qui sert à enregistrer les données dans la base de données SQL proposée par Django.
 
 ......................................
 La vue find
 ......................................
+
+La vue ``find`` utilise la fonction ``objects.all()`` qui permet d'assigner à ``latest_exercise_list`` une liste comportant tous les exercices appartenant à la table ``Exercise`` présents dans la base de données.
+La fonction ``return`` retourne ici le template ``find.html`` mais également un dictionnaire possédant la variable ``latest_exercise_list``.
 
 .. code-block:: python
     :linenos:
@@ -113,10 +172,11 @@ La vue find
 La vue resolve
 ......................................
 
-La vue resolve se trouvant dans le fichier ``views.py`` est la vue qui permet d'afficher un exercice dans son template ``resolve.html`` et si il n'y a pas d'exercice suite à l'url entré par l'utilisateur,
-elle renvoit une erreur 404. Grâce à celle-ci, chaque exercice à sa propre page.
+La vue ``resolve`` permet d'afficher un exercice dans son template ``resolve.html``. La fonction ``get_object_or_404()`` assigne à la variable ``exercise`` toutes les données de l'objet ``n_exercise`` présent dans
+la table ``Exercise``. Si celui-là est inexistant, la vue renvoie une erreur *404*. La fonction ``.save()`` est également présente dans ce template et instance la résolutions d'un élève en rapport avec 
+l'exercice ``n_exercise`` dans la table ``Exercise_done``. 
 
-Le code de cette vue est assez rudimentaire mais l'import ainsi que l'utilisation de ``get_object_or_404`` est à noter.
+Le return de la condition ``if`` permet de renvoyer l'utilisateur sur la page du corrigé de l'exercice ``n_exercise``.
 
 .. code-block:: python
     :linenos:
@@ -140,6 +200,11 @@ Le code de cette vue est assez rudimentaire mais l'import ainsi que l'utilisatio
 La vue correction
 ......................................
 
+L'utilisateur accède au template relatif à cette vue suite à l'envoi de son formulaire dans la vue ``resolve``.
+
+Dans cette vue, on récupère le corrigé de l'exercice ``n_exercise`` dans la table ``Exercise`` puis on affecte cette valeur à la variable correction.
+L'utilisateur entre les étapes de la résolution de l'exercice ligne par ligne. Du coup, on utilise la fonction ``split("\n") pour créer une liste contenant chaque ligne 
+de la résolution. Cette liste est retournée dans le template grâce à la fonction ``locals()``.
 
 .. code-block:: python
     :linenos:
@@ -154,6 +219,9 @@ La vue correction
 La vue done
 .....................................
 
+Cette vue permet à un professeur de voir toutes les résolutions des élèves présentes dans l'exercice ``n_exercise``. La fonction ``objects.filter()`` 
+permet d'affecter à la variable ``exercises_done`` les valeurs de l'objet ``n_exercise`` qui se trouvent dans la table ``Exercise_done``. Cette dernière est en 
+lien avec l'exercice grâce à une ``ForeignKey``. Du coup, ``exercises_done`` peut contenir plusieurs objets.
 
 .. code-block:: python
     :linenos:
@@ -170,7 +238,9 @@ La vue done
 La vue search
 ......................................
 
-
+Ceci est la dernière vue de l'application. Son rôle est totalement différent de toutes les autres vues. En effet, cette vue ne retourne aucun template visible par l'utilisateur 
+mais elle sert à l' ``input`` ``#search_input`` présent dans le template ``find.html`` de retouner le lien de l'exercice ``exercise.pk``.
+Une méthode Ajax est nécessaire pour éviter de faire recharger la page et rendre les recherches plus rapide. 
 
 .. code-block:: python
     :linenos:
@@ -255,7 +325,7 @@ Le template de base du site
 .......................................
 
 
-Pour ce qui est du Frontend, le thème bootstrap ``shop-item`` est un thème simple nécéssitant que très peu de modifications. Il se trouve [#f8]_ `ici <http://startbootstrap.com/template-overviews/shop-item/>`_ .
+Pour ce qui est du Frontend, le thème bootstrap ``shop-item`` est un thème simple nécéssitant que très peu de modifications. Il se trouve [#f10]_ `ici <http://startbootstrap.com/template-overviews/shop-item/>`_ .
 
 Le code du template de base est le suivant:
 
@@ -463,7 +533,7 @@ Voici le template ``exercises/templates/create.html``.
 
 Le ``<button id="voir">`` utilise un script se trouvant sous ``exercises/js/create.js``. Ce script est codé en jQuery et permet d'afficher la deuxième partie du formulaire 
 et, grâce à la méthode ``MathJax.Hub.Queue(["Typeset", MathJax.Hub])``, de formater l'équation entrée précédement en la mettant sous une forme mathématique.
-Pour ce qui est de la documentation de Mathjax, elle se trouve [#f9]_ `ici <https://www.mathjax.org/#docs>`_ .
+Pour ce qui est de la documentation de Mathjax, elle se trouve [#f11]_ `ici <https://www.mathjax.org/#docs>`_ .
  
     
 
@@ -629,9 +699,9 @@ Le template resolve.html
     </div>
     {% endblock %}
 
-.......................
+............................
 le template correction.html
-.......................
+............................
 
 .. code-block:: html
     :linenos:
@@ -709,13 +779,14 @@ le template done.html
 
 
 .. rubric::
-
-.. [#f1] Le lien de la documentation de Python : https://docs.python.org/3/
-.. [#f2] Le lien de la documentation d'Html : http://overapi.com/html/
-.. [#f3] Le lien de la documentation de CSS : http://overapi.com/css/
-.. [#f4] Le lien de la documentation de Javascript : http://overapi.com/javascript/
-.. [#f5] Le lien de la documentation de Bootstrap : http://getbootstrap.com/getting-started/
-.. [#f6] Le lien de la documentation de jQuery : http://overapi.com/jquery/
-.. [#f7] Le lien de la documentation de Django : https://docs.djangoproject.com/en/1.7/
-.. [#f8] Le lien du thème : http://startbootstrap.com/template-overviews/shop-item/
-.. [#f9] Le lien de la documentation MathJax : https://www.mathjax.org/#docs
+.. [#f1] Le lien de la documentation GitHub: https://github.com/thirteenfoil8/TM-Code-Doc
+.. [#f2] Le lien de la documentation de Python : https://docs.python.org/3/
+.. [#f3] Le lien de la documentation d'Html : http://overapi.com/html/
+.. [#f4] Le lien de la documentation de CSS : http://overapi.com/css/
+.. [#f5] Le lien de la documentation de Javascript : http://overapi.com/javascript/
+.. [#f6] Le lien de la documentation de Bootstrap : http://getbootstrap.com/getting-started/
+.. [#f7] Le lien de la documentation de jQuery : http://overapi.com/jquery/
+.. [#f8] Le lien de la documentation de Django : https://docs.djangoproject.com/en/1.7/
+.. [#f9] Le lien vers la page admin: http://webmath-thirteenfoil8.c9.io/admin/
+.. [#f10] Le lien du thème : http://startbootstrap.com/template-overviews/shop-item/
+.. [#f11] Le lien de la documentation MathJax : https://www.mathjax.org/#docs

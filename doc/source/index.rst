@@ -5,7 +5,6 @@
 
 L'application Exercice du site Webmath
 ===========================================================
-Contenu:
 
 .. toctree::
    :maxdepth: 2
@@ -14,11 +13,3 @@ Contenu:
    user
    developpeur
    
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
