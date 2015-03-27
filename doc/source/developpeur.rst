@@ -441,7 +441,7 @@ pour éviter les erreurs de redirection.
     </div>
     
 Les urls de redirection vers les différentes pages du site sont gérés de la manière ci-dessus. On utilise ``<a href="{% url 'exercises:<nom_du_template>' %}"`` 
-pour renvoyer l'utilisateur vers les ``templates``. Le bloque {% block active-<home, reso ou create> %}{% endblock %} permet de mettre en évidence 
+pour renvoyer l'utilisateur vers les ``templates``. Le bloque {% block active-<home, reso ou create> %}{% endblock %} permet d'activer une classe sur l'onglet actuel. 
 
 ........................................
 Le template ``create.html``
@@ -519,23 +519,9 @@ La fonctionnalité permettant la recherche d'un exercice nécessite le code ``ht
 
 
 
-.. code-block:: html
-    :linenos:
-    
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}:
-            {{ exercise.owner }} no{{ exercise.id }} difficulté :{{ exercise.grade }}</a>
-        </div>
-        <div class="panel-body">
-            <a id ="resolve" href="{% url 'exercises:done' exercise.id %}">
-            Les résolutions des élèves</a>
-        </div>
-    </div>
-
     
 Grâce au script de cette page se trouvant dans ``static/exercises/js/find.js``, la vue ``search`` analysée auparavant prend tout son sens car ce script utilise les données trouvées par
-ajax pour les formater et les mettre en page en utilisant le code suivant:
+ajax pour les formater et les mettre en page suite à l'activation du bouton ``<button type="button" id="search" name="search" class="btn btn-warning">Rechercher</button>`` en utilisant le code suivant:
 
 .. code-block:: javascript
     :linenos:
@@ -573,6 +559,23 @@ ajax pour les formater et les mettre en page en utilisant le code suivant:
             });
         });
     });
+
+Les commentaires parlent d'eux même. Si l'id de l'exercice existe, on retourne la ``<div id="true">`` contenant le lien de l'exercice en question.
+
+
+.. code-block:: html
+    :linenos:
+    
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}:
+            {{ exercise.owner }} no{{ exercise.id }} difficulté :{{ exercise.grade }}</a>
+        </div>
+        <div class="panel-body">
+            <a id ="resolve" href="{% url 'exercises:done' exercise.id %}">
+            Les résolutions des élèves</a>
+        </div>
+    </div>
 
 
 

@@ -1,6 +1,8 @@
 {% extends "exercises/index.html" %}
 {% load staticfiles %}
-{% block head %}<script type='text/javascript' src="{% static 'exercises/js/resolve.js' %}"></script>{% endblock %}
+{% block head %}<script type='text/javascript' src="{% static 'exercises/js/resolve.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'exercises/css/resolve.css' %}"/>
+{% endblock %}
 {% block title %}Résolution d'exercice{% endblock %}
 {% block active-home %}{% endblock %}
 {% block active-reso %}active{% endblock %}
@@ -10,8 +12,7 @@
         <div class="caption-full">
             <h1 id="title">{{ exercise.title }}</h1>
             <div class="thumbnail">
-                <p id ="donnee">{{ exercise.donnee }}</p>
-                <p>$$ {{ exercise.equation }} $$</p>
+                <p id ="eq">$$ {{ exercise.equation }} $$</p>
                 <h6>crée le :{{ exercise.created_on  }}</h6>
                 <form id="resolve-form" action="{% url 'exercises:resolve' id %}" method="post">{% csrf_token %}
                     <div>
@@ -19,6 +20,7 @@
                         <textarea type="text" id="response" name="response" class="form-control"></textarea>
                     </div>
                     <button type="button" id="submit-resolve" class="btn btn-sm btn-primary">Soumettre et voir le corrigé</button>
+                    <a class="btn btn-sm btn-primary" href="{% url 'exercises:done' id %}">Résolutions de cet exercice</a> 
                     <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
                 </form>
             </div>
