@@ -7,7 +7,7 @@
 {% block active-home %}{% endblock %}
 {% block active-create %}active{% endblock %}
 {% block content %}
-<form action="{% url 'exercises:create' %}" method="post">{% csrf_token %}
+<form id="create-form" action="{% url 'exercises:create' %}" method="post">{% csrf_token %}
     <div class="col-md-9">
         <div class="thumbnail">
             <div class="caption-full">
@@ -23,7 +23,7 @@
         	        </div>
                     <div>
                         <label for="equation">Equation à résoudre</label>
-                        <input type="text" name="equation" class="form-control equation">
+                        <input type="text" name="equation" id="equation" class="form-control equation">
                     </div>
                     <div>
                         <label for="grade">Difficulté</label>
@@ -50,9 +50,25 @@
                     <label for="correction"><br>Développement du corrigé</label>
                     <textarea id="correction" class="form-control" name="correction"></textarea>
                 </div>
-                <input type="submit" class="btn btn-sm btn-primary">
+                <button type="button" id="submit-resolve" class="btn btn-sm btn-primary">Soumettre l'exercice</button>
             </div>
         </div>
     </div>
 </form>
+<div class="modal fade" id="form-warning">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Erreur</h4>
+            </div>
+            <div class="modal-body">
+                <p>Vous devez remplir tous les champs pour soumettre votre réponse</p>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-success" data-dismiss="modal">Ok</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

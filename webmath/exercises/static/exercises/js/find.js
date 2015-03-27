@@ -1,9 +1,9 @@
 $(document).ready(function() {
-    $('#false').hide();
+    $('#false').hide(); // Cache les divs #false et #true
     $('#true').hide();
     $("#search").click(function() {
-        $("#lien").empty();
-        var search = $("#search_input").val();
+        $("#lien").empty(); // Supprime l'éventuelle ancienne valeur
+        var $search = $("#search_input").val(); // enregistre la valeur de la recherche
         $('#false').hide();
         $('#true').hide();
         
@@ -12,16 +12,16 @@ $(document).ready(function() {
             type: "GET",
             dataType: "json",
             data : {
-                search : search,
+                search : $search, //récupère les données de la recherche par rapport à l'exercice recherché ( $search )
             },
-            success : function(response) {
+            success : function(response) { // Ajoute le lien de l'exercice si il existe et l'affiche à l'utilisateur dans la div #true
                 var $url= response["url"];
                 $('#true').show();
                 $("<a>", {
                 "href": $url,
                 }).text("Voici le lien").appendTo("#lien");
             },
-            error : function() {
+            error : function() { // Affiche le message d'erreur si l'exercice existe pas 
                 $("#false").show();
             }
         });
