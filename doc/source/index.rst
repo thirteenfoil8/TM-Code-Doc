@@ -12,4 +12,8 @@ L'application Exercice du site Webmath
    projet_debut
    user
    developpeur
+   conclusion
+   web
+   table
+
    

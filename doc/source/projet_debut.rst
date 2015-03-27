@@ -25,7 +25,7 @@ cités.
 Le but de l'application
 --------------------------------------
 
-Voici la documentation de l'application ``Exercice`` présente sur le site `suivant <https://webmath-thirteenfoil8.c9.io/exercises/>`_ [#f1]_ . Celle-ci permet de
+Voici la documentation de l'application ``exercises`` présente sur le site `suivant <https://webmath-thirteenfoil8.c9.io/exercises/>`_ [#f1]_ . Celle-ci permet de
 pouvoir utiliser la partie création ainsi que la partie résolution des exercices de manière complète et détaillée. Cette application servira par la suite à un 
 professeur de pouvoir créer un exercice de factorisation ou de développemennt et de pouvoir le mettre en ligne. Il suffira de donner le lien de
 l'exercice à l'élève pour qu'il puisse le résoudre. 

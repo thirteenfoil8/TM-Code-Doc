@@ -3,29 +3,27 @@ Documentation du développeur
 ####################################
 
 Cette partie de la documentation est essentiellement destinée au développeur qui aimerait comprendre comment cette application fonctionne.
-Il est a noté que le projet contenant l'entier des fichiers est sur un `dépôt <https://github.com/thirteenfoil8/TM-Code-Doc>`_ [#f1]_ GitHub.
-
 Tout ce qui concerne les modèles, les vues, les urls, les templates, ... est affiché ci-dessous. Le code est accompagné de quelques annotations mais celles-ci sont là 
 que pour donner quelques précisions quant à celui-ci. Il est donc nécéssaire de connaître les languages de programmation et les frameworks suivant pour comprendre la documentation 
 développeur: 
 
 * Les languages de programmation:
 
-  * `Python <https://docs.python.org/3/>`_ [#f2]_
+  * `Python <https://docs.python.org/3/>`_ [#f1]_
   
-  * `Html  <http://overapi.com/html/>`_ [#f3]_ 
+  * `Html  <http://overapi.com/html/>`_ [#f2]_ 
   
-  * `Css  <http://overapi.com/css/>`_ [#f4]_
+  * `Css  <http://overapi.com/css/>`_ [#f3]_
   
-  * `Javascript  <http://overapi.com/javascript/>`_ [#f5]_
+  * `Javascript  <http://overapi.com/javascript/>`_ [#f4]_
     
 * Les FrameWorks:
 
-  * `Bootstrap  <http://getbootstrap.com/getting-started/>`_ [#f6]_ 
+  * `Bootstrap  <http://getbootstrap.com/getting-started/>`_ [#f5]_ 
   
-  * `jQuery  <http://overapi.com/jquery/>`_ [#f7]_ 
+  * `jQuery  <http://overapi.com/jquery/>`_ [#f6]_ 
   
-  * `Django  <https://docs.djangoproject.com/en/1.7/>`_ [#f8]_ 
+  * `Django  <https://docs.djangoproject.com/en/1.7/>`_ [#f7]_ 
   
   
 
@@ -33,6 +31,35 @@ développeur:
 .. raw:: latex
 
     \pagebreak
+
+---------------------------------
+Démarrage du projet depuis Cloud9
+---------------------------------
+
+L'utilisation de l'environnement Web `Cloud9 <https://c9.io/>`_ [#f8]_ est très utile. Cela permet de ne pas surcharger la machine sur laquelle on travaille et le code est accessible depuis nimporte quel 
+ordinateur dans le mode possédant une connection internet.
+
+Une fois sur Cloud9, il faut créer un *Workspace custom* en cliquant sur l'onglet *create new workspace*. 
+Voici la série de commande à entrer pour pouvoir démarrer le projet :
+
+.. code-block:: python
+
+    #installer django
+    sudo pip3 install django
+    
+    #installer pillow qui gère les images de l'application common
+    sudo pip3 install pillow
+    
+    #cloner le dépôt git 
+    git clone https://github.com/thirteenfoil8/TM-Code-Doc
+    
+    #Lancer le serveur
+    python3 manange.py runserver $IP:$PORT
+
+
+Il est a noté que le projet contenant l'entier des fichiers est sur un `dépôt <https://github.com/thirteenfoil8/TM-Code-Doc>`_ [#f9]_ GitHub. 
+Une fois ces commandes entrées dans le ``bash``, l'entier du projet sera présent dans le *workspace*.
+
 
 
 
@@ -47,7 +74,7 @@ Les modèles
         le titre de l'exercice : ``title`` ( celui-ci ne possède que 4 choix présents dans le template ``create.html`` présent plus bas dans la documentation ), 
         l'équation que l'élève devra traîter : ``equation``, la difficulté de l'exercice : ``grade`` ( choisi entre 1 et 5 également dans ``create.html`` ), 
         et enfin la correction de l'exercice : ``correction``.
-        La fonction ``def __str__(self)`` sert uniquement à rendre quelque chose de plus propre sur la `page <http://webmath-thirteenfoil8.c9.io/admin/>`_ [#f9]_ prévue pour les admins du site.
+        La fonction ``def __str__(self)`` sert uniquement à rendre quelque chose de plus propre sur la `page <http://webmath-thirteenfoil8.c9.io/admin/>`_ [#f10]_ prévue pour les admins du site.
     
     * ``Exercise_done``
         
@@ -314,7 +341,7 @@ Les urls
 Les urls de la racine du projet
 ......................................
 
-Les urls du code suivant servent tout simplement à indiquer les urls de base de l'application. Cela veut dire que suite à l'url http://webmath-thirteenfoil8.c9.io/ [#f10]_ , 
+Les urls du code suivant servent tout simplement à indiquer les urls de base de l'application. Cela veut dire que suite à l'url http://webmath-thirteenfoil8.c9.io/ [#f11]_ , 
 un simple rajout d'un des urls suivants, c'est à dire : ``admin``, ``exercises``, ``common`` ou ``permission``, amenera l'utilisateur directement à la base d'une des applications du projet.
 À cela, il faut signaler la présence de la fonction ``include()`` permet à chaque urls présent dans les applications de pouvoir s'ajouter à l'url de base. Les urls de l'application ``exercises``
 sont expliqués dans la rubrique suivante.
@@ -423,6 +450,9 @@ Pour ce qui est de la barre latéral se trouvant à gauche des pages du site, il
 une formule Django simple qui permet, si il y a un changement d'url par la suite dans le fichier ``urls.py`` de faire automatiquement le changement 
 pour éviter les erreurs de redirection.
 
+Pour ce qui est du Frontend, l'utilisation d'un thème Bootstrap permet de ne pas trop se focaliser sur le design. Pour cette application, Le thème `shop-item <http://startbootstrap.com/template-overviews/shop-item/>`_ [#f12]_
+est parfait car il est simple, ergonomique et ne demande que très peu de modifications.
+
 
 .. code-block:: html
     :linenos:
@@ -453,7 +483,7 @@ la présence de la balise ``<form>`` est absolument nécéssaire. Toutes les don
 
 Le ``<button id="voir">`` utilise un script se trouvant sous ``exercises/js/create.js``. Ce script est codé en jQuery et permet d'afficher la deuxième partie du formulaire 
 et, grâce à la méthode ``MathJax.Hub.Queue(["Typeset", MathJax.Hub])``, de formater l'équation entrée précédement en la mettant sous une forme mathématique.
-Pour ce qui est de la documentation de Mathjax, elle se trouve `ici <https://www.mathjax.org/#docs>`_ [#f12]_ .
+Pour ce qui est de la documentation de Mathjax, elle se trouve `ici <https://www.mathjax.org/#docs>`_ [#f13]_ .
  
     
 
@@ -666,16 +696,16 @@ Si l'exercice ne comporte aucune résolution, on affiche le texte suivant : "Auc
     {% endif %}
 
 
-.. rubric::
-.. [#f1] Le lien de la documentation GitHub: https://github.com/thirteenfoil8/TM-Code-Doc
-.. [#f2] Le lien de la documentation de Python : https://docs.python.org/3/
-.. [#f3] Le lien de la documentation d'Html : http://overapi.com/html/
-.. [#f4] Le lien de la documentation de CSS : http://overapi.com/css/
-.. [#f5] Le lien de la documentation de Javascript : http://overapi.com/javascript/
-.. [#f6] Le lien de la documentation de Bootstrap : http://getbootstrap.com/getting-started/
-.. [#f7] Le lien de la documentation de jQuery : http://overapi.com/jquery/
-.. [#f8] Le lien de la documentation de Django : https://docs.djangoproject.com/en/1.7/
-.. [#f9] Le lien vers la page admin: http://webmath-thirteenfoil8.c9.io/admin/
-.. [#f10] Le lien vers la page de base du projet: http://webmath-thirteenfoil8.c9.io/
-.. [#f11] Le lien du thème : http://startbootstrap.com/template-overviews/shop-item/
-.. [#f12] Le lien de la documentation MathJax : https://www.mathjax.org/#docs
+.. [#f1] Le lien de la documentation de Python : https://docs.python.org/3/
+.. [#f2] Le lien de la documentation d'Html : http://overapi.com/html/
+.. [#f3] Le lien de la documentation de CSS : http://overapi.com/css/
+.. [#f4] Le lien de la documentation de Javascript : http://overapi.com/javascript/
+.. [#f5] Le lien de la documentation de Bootstrap : http://getbootstrap.com/getting-started/
+.. [#f6] Le lien de la documentation de jQuery : http://overapi.com/jquery/
+.. [#f7] Le lien de la documentation de Django : https://docs.djangoproject.com/en/1.7/
+.. [#f8] Le line vers Cloud9 : https://c9.io/
+.. [#f9] Le lien de la documentation GitHub: https://github.com/thirteenfoil8/TM-Code-Doc
+.. [#f10] Le lien vers la page admin: http://webmath-thirteenfoil8.c9.io/admin/
+.. [#f11] Le lien vers la page de base du projet: http://webmath-thirteenfoil8.c9.io/
+.. [#f12] Le lien du thème : http://startbootstrap.com/template-overviews/shop-item/
+.. [#f13] Le lien de la documentation MathJax : https://www.mathjax.org/#docs
