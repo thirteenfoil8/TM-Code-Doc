@@ -395,7 +395,6 @@ Dans les templates de cette application, on utilise les données présentes dans
 
     .. code-block:: html
         :linenos:
-    
         
         {% for line in correction_line %}
             <p>$$ {{ line }} $$</p>
@@ -404,9 +403,9 @@ Dans les templates de cette application, on utilise les données présentes dans
 2.  Soit sous forme d'appel du champ présent dans les modèles directement sur l'objet d'``Exercise`` ou d'``Exercise_done``.
     Par exemple:
     
-        ..code-block:: html
+        .. code-block:: html
             :linenos:
-        
+            
             {{ exercise.equation }}
             {{ exercise.id }}
 
@@ -560,8 +559,11 @@ ajax pour les formater et les mettre en page suite à l'activation du bouton ``<
         });
     });
 
-Les commentaires parlent d'eux même. Si l'id de l'exercice existe, on retourne la ``<div id="true">`` contenant le lien de l'exercice en question.
+Les commentaires parlent d'eux même. Si l'id de l'exercice existe, on affiche la div :``<div id="true">`` contenant le lien de l'exercice en question sinon, on affiche la 
+div : ``<div id="false">`` indiquant que l'exercice n'existe pas.
 
+Pour ce qui est de la mise en page, les ``panel`` de Bootstrap sont très clairs et permette de bien différencié la page de résolution de l'exercice et la page contenant les 
+résolutions des élèves. Cette dernière est accessible que par les professeurs.
 
 .. code-block:: html
     :linenos:
@@ -577,14 +579,16 @@ Les commentaires parlent d'eux même. Si l'id de l'exercice existe, on retourne 
         </div>
     </div>
 
+``<div class="panel-heading">`` contient le lien de la page de résolutions et ``<div class="panel-body">`` contient la page contenant les résolutions des élèves.
 
 
-
-...........................
+............................
 Le template ``resolve.html`` 
-...........................
+............................
 
-
+``resolve.html`` permet à un élève de résoudre un exercice. Du coup, un formulaire doit être présent dans le template.
+Pour cela, on utilise la balise ``<form>`` à laquelle il faut ajouter la commande ``{% csrf_token %}`` permettant de sécuriser les données qui seront entrées 
+par l'utilisateur.
 
 .. code-block:: html
     :linenos:
@@ -601,7 +605,11 @@ Le template ``resolve.html``
         <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
     </form>
 
+    
+Le bouton ``<button type="button" id="submit-resolve" class="btn btn-sm btn-primary">`` renvoie la même fonction javascript que pour le template ``find.html``.
+Cela renvoie un message d'erreur si l'utilisateur n'a pas rempli tout le formulaire et envoie les données à la vue ``resolve.html`` si le formulaire est complet.
 
+Le fichier javascript se trouve dans ``static/exercises/js/resolve.js``.
 
 .. code-block:: javascript
     :linenos:
@@ -613,7 +621,7 @@ Le template ``resolve.html``
             $("#resolve-form").submit();
         }
         else {
-            // Affiche un message d'erreur si tous les champs ne sont pas rempli
+            // Affiche un message d'erreur si tous les champs ne sont pas remplis
             $("#form-warning").modal("show");
             
         }
@@ -626,6 +634,9 @@ Le template ``resolve.html``
 le template ``done.html``
 .........................
 
+Le template ``done.html`` utilise la fonction ``get_lines`` présent dans ``models.py`` pour créer une liste contenant toutes les résolutions faites pour un exercice.
+Ensuite, on traîte cette liste à l'aide d'une boucle ``for`` pour séparer les résolutions et rendre la page plus claire.
+Si l'exercice ne comporte aucune résolution, on affiche le texte suivant : "Aucune résolution effectuée pour cet exercice"
 
 .. code-block:: html
     :linenos:
