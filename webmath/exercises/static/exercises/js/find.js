@@ -21,7 +21,7 @@ $(document).ready(function() {
                 "href": $url,
                 }).text("Voici le lien").appendTo("#lien");
             },
-            error : function() { // Affiche le message d'erreur si l'exercice existe pas 
+            error : function() { // Affiche le message d'erreur si l'exercice n'existe pas 
                 $("#false").show();
             }
         });

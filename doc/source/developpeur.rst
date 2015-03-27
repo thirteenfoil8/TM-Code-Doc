@@ -82,25 +82,32 @@ mais qu'une résolution ne fait partie que d'un exercice.
         
         class Exercise(models.Model):
             
-            owner = models.CharField(max_length=20)  
-            created_on = models.DateTimeField(auto_now_add=True)
-            title = models.CharField(max_length=30)
-            equation = models.CharField(max_length=50)
-            grade = models.CharField(max_length=60) 
-            correction = models.CharField(max_length = 200)
+            owner = models.CharField(max_length=20)  # créateur
+            created_on = models.DateTimeField(auto_now_add=True) # date de création
+            title = models.CharField(max_length=30) # type d'exerciCe ( choisi
+                                                    #dans create.html )
+            equation = models.CharField(max_length=50) # Equation de l'exercice
+            grade = models.CharField(max_length=60) # difficulté ( entre 1 et 5 )
+            correction = models.CharField(max_length = 200) # corrigé de l'exercice
             def __str__(self):
-                return self.title + " " + self.owner + " " + str(self.pk)
+                # recherche plus facile dans http://webmath-thirteenfoil8.c9.io/admin/
+                return self.title + " " + self.owner + " " + str(self.pk) 
+            
                 
-        class Exercise_done(models.Model):
-            student = models.CharField(max_length=20)
-            do_on = models.DateTimeField(auto_now_add=True)
-            exercise_done = models.ForeignKey(Exercise)
-            resolution = models.CharField(max_length = 200)
+        class Exercise_done(models.Model): # Résolutions d'un exercice ( n...1 )
+            student = models.CharField(max_length=20) # Etudiant résolvant l'équation
+            do_on = models.DateTimeField(auto_now_add=True) # date de résolution
+            exercise_done = models.ForeignKey(Exercise) # l'exercice auquel les
+                                                        #résolutions seront liées
+            resolution = models.CharField(max_length = 200) # la résolution
             
             def __str__(self):
-                return self.exercise_done.title + " " + self.exercise_done.owner + str(self.exercise_done.pk) + " fait par: " + self.student
+                # recherche plus facile dans http://webmath-thirteenfoil8.c9.io/admin/
+                return self.exercise_done.title + " " + self.exercise_done.owner/
+                + str(self.exercise_done.pk) + " fait par: " + self.student 
                 
-            def get_lines(self):
+            # retourne une liste avec chaque ligne de la résolution.
+            def get_lines(self): 
                 return self.resolution.split("\n")
 
 --------------------------------------
@@ -119,6 +126,26 @@ Par la suite, deux points seront assez récurrents:
     
 Ces deux appels viennent des applications common et permission qui servent à gerer les authentifications et les permissions d'un utilisateur.
 
+Les différents ``import`` à faire ainsi que la vue du template de base ``index.html`` sont les suivants :
+
+.. code-block:: python
+    :linenos:
+    
+    from django.shortcuts import render, HttpResponseRedirect, get_object_or_404,\
+    HttpResponse
+    from django.core.urlresolvers import reverse
+    from exercises.models import *
+    import json
+    from common.models import Teacher, Student
+    from common.auth_utils import *
+    from django.contrib.auth.decorators import login_required, user_passes_test
+    # Create your views here.
+    def index(request):
+        return render(request, 'exercises/index.html')
+    
+    # @login_required demande à l'utilisateur d'être connecté
+    # @user_passes_test(is_teacher) restreint l'accès seulement au teachers 
+
 ......................................
 La vue create
 ......................................
@@ -136,13 +163,17 @@ Le code permettant de faire ça se trouve dans la vue ``create``.
     @login_required
     @user_passes_test(is_teacher)
     def create(request):
-        if request.method == 'POST': # sauvegarde des données dans la db
+        # enregistre les données du formulaire dans la base de données si requête
+        # POST sinon, retourne la page
+        if request.method == 'POST': 
             title = request.POST['type']
             equation = request.POST['equation']
             grade = request.POST['grade']
             correction = request.POST['correction']
-            owner = request.user.username
-            Exercise(title=title, owner=owner, equation=equation, grade=grade, correction=correction).save()
+            owner = request.user.username # prendre l'username du user dans 
+            #la table User de Django
+            Exercise(title=title, owner=owner, equation=equation, grade=grade, \
+            correction=correction).save()
             
             return HttpResponseRedirect(reverse("exercises:index"))
         else:
@@ -165,8 +196,10 @@ La fonction ``return`` retourne ici le template ``find.html`` mais également un
 
     @login_required
     def find(request):
+        # Assigne les Querysets des objets exercise
         latest_exercise_list = Exercise.objects.all()
-        return render(request, 'exercises/find.html', {"exercises_list" : latest_exercise_list})
+        return render(request, 'exercises/find.html', {"exercises_list" : \
+        latest_exercise_list})
 
 ......................................
 La vue resolve
@@ -183,15 +216,22 @@ Le return de la condition ``if`` permet de renvoyer l'utilisateur sur la page du
 
     @login_required    
     def resolve(request, n_exercise):
-        exercise = get_object_or_404(Exercise, id=n_exercise)
+        exercise = get_object_or_404(Exercise, id=n_exercise) # Assigne les Querysets
+        # des objets exercise, 404 si inexistant
+        
+        # enregistre les données du formulaire dans la base de données si requête
+        # POST sinon, retourne la page 
         if request.method == 'POST' :
             student = request.user.username
             resolution = request.POST['response']
-            Exercise_done(exercise_done=exercise, resolution=resolution, student=student).save()
+            Exercise_done(exercise_done=exercise, resolution=resolution, \
+            student=student).save() # sauvegarde des données dans la db
             
-            return HttpResponseRedirect(reverse("exercises:correction", args=[n_exercise]))
+            return HttpResponseRedirect(reverse("exercises:correction", \
+            args=[n_exercise]))
         else:
-            return render(request, 'exercises/resolve.html', {"exercise" : exercise, "id" : n_exercise})
+            return render(request, 'exercises/resolve.html', \
+            {"exercise" : exercise, "id" : n_exercise})
     
 
 
@@ -572,13 +612,26 @@ Le voici:
     :linenos:
 
     $(document).ready(function() {
-        $( ".corrigé" ).hide();
-        $("#voir").click(function() {
-            var $formule = $(".equation").val();
-            $(".formule").text("$$" + $formule + "$$");
-            $(".corrigé").show();
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-        });
+      $( ".corrigé" ).hide(); // cache la div du corrigé qui sera affiché plus tard
+      $("#voir").click(function() {
+          var $formule = $(".equation").val(); // Récupère la valeur de l'équation
+          $(".formule").text("$$" + $formule + "$$"); // La formate en Latex grâce
+          //à MathJax
+          $(".corrigé").show();
+          MathJax.Hub.Queue(["Typeset", MathJax.Hub]); // permet d'afficher l'équation
+          //en Latex sans avoir à recharger la page
+      });
+      $("#submit-resolve").click(function() { 
+          if ($("#correction").val()&& $("#equation").val()) {
+                  $("#create-form").submit(); // renvoie le formulaire si les
+                  // tous les champs sont remplis
+              }
+          else {
+              $("#form-warning").modal("show"); // Affiche un message d'erreur si
+              // tous les champs ne sont pas rempli
+              
+          }
+      });
     });
 
 
@@ -640,15 +693,16 @@ Voici le template:
 Grâce au script de cette page se trouvant dans ``static/exercises/js/find.js``, la vue ``search`` analysée auparavant prend tout son sens car ce script utilise les données trouvées par
 ajax pour les formater et les mettre en page en utilisant le code suivant:
 
-.. code-block :: javascript
+.. code-block:: javascript
     :linenos:
 
     $(document).ready(function() {
-        $('#false').hide();
+        $('#false').hide(); // Cache les divs #false et #true
         $('#true').hide();
         $("#search").click(function() {
-            $("#lien").empty();
-            var search = $("#search_input").val();
+            $("#lien").empty(); // Supprime l'éventuelle ancienne valeur
+            var $search = $("#search_input").val(); // enregistre la valeur de
+            //la recherche
             $('#false').hide();
             $('#true').hide();
             
@@ -657,21 +711,26 @@ ajax pour les formater et les mettre en page en utilisant le code suivant:
                 type: "GET",
                 dataType: "json",
                 data : {
-                    search : search,
+                    search : $search, //récupère les données de la recherche par
+                    //rapport à l'exercice recherché ( $search )
                 },
-                success : function(response) {
+                success : function(response) { // Ajoute le lien de l'exercice si
+                //il existe et l'affiche à l'utilisateur dans la div #true
                     var $url= response["url"];
                     $('#true').show();
                     $("<a>", {
                     "href": $url,
                     }).text("Voici le lien").appendTo("#lien");
                 },
-                error : function() {
+                error : function() { // Affiche le message d'erreur si l'exercice
+                //n'existe pas 
                     $("#false").show();
                 }
             });
         });
     });
+
+
 
 
 ...........................
@@ -727,6 +786,24 @@ Le template resolve.html
         </div>
     </div>
     {% endblock %}
+
+
+.. code-block:: javascript
+    :linenos:
+    
+    $(document).ready(function() {
+      $("#submit-resolve").click(function() {
+        // renvoie le formulaire si tous les champs sont remplis
+        if ($("#response").val()) {
+            $("#resolve-form").submit();
+        }
+        else {
+            // Affiche un message d'erreur si tous les champs ne sont pas rempli
+            $("#form-warning").modal("show");
+            
+        }
+      });
+    });
 
 ............................
 le template correction.html
