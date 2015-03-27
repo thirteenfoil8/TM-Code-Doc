@@ -85,7 +85,7 @@ mais qu'une résolution ne fait partie que d'un exercice.
             owner = models.CharField(max_length=20)  # créateur
             created_on = models.DateTimeField(auto_now_add=True) # date de création
             title = models.CharField(max_length=30) # type d'exerciCe ( choisi
-                                                    #dans create.html )
+                                                    # dans create.html )
             equation = models.CharField(max_length=50) # Equation de l'exercice
             grade = models.CharField(max_length=60) # difficulté ( entre 1 et 5 )
             correction = models.CharField(max_length = 200) # corrigé de l'exercice
@@ -98,7 +98,7 @@ mais qu'une résolution ne fait partie que d'un exercice.
             student = models.CharField(max_length=20) # Etudiant résolvant l'équation
             do_on = models.DateTimeField(auto_now_add=True) # date de résolution
             exercise_done = models.ForeignKey(Exercise) # l'exercice auquel les
-                                                        #résolutions seront liées
+                                                        # résolutions seront liées
             resolution = models.CharField(max_length = 200) # la résolution
             
             def __str__(self):
@@ -348,19 +348,19 @@ Par exemple, ``/exercices/done/1`` retournera la page des résolutions de l'exer
 affichera une page d'erreur.
 
 
-1. ``url(r'^$', index, name="index")`` renvoie la page d'accueil du site.
+1. L'``url(r'^$', index, name="index")`` renvoie la page d'accueil du site.
 
-2. ``url(r'^create/$', create, name="create"),`` renvoie la page de création d'exercices, accessible que par les professeurs.
+2. L'``url(r'^create/$', create, name="create"),`` renvoie la page de création d'exercices, accessible que par les professeurs.
 
-3. ``url(r'^find/$', find, name="find"),`` renvoie la page de recherche des exercices.
+3. L'``url(r'^find/$', find, name="find"),`` renvoie la page de recherche des exercices.
 
-4. ``url(r'^done/(\d+)/$', done, name="done"),`` renvoie la page comportant les résolutions des élèves par rapport à un exercice.
+4. L'``url(r'^done/(\d+)/$', done, name="done"),`` renvoie la page comportant les résolutions des élèves par rapport à un exercice.
 
-5. ``url(r'^resolve/(\d+)/$', resolve, name="resolve"),`` renvoie la page de résolutions d'un exercice.
+5. L'``url(r'^resolve/(\d+)/$', resolve, name="resolve"),`` renvoie la page de résolutions d'un exercice.
 
-6. ``url(r'^correction/(\d+)/$', correction, name='correction'),`` renvoie la page de correction d'un exercice.
+6. L'``url(r'^correction/(\d+)/$', correction, name='correction'),`` renvoie la page de correction d'un exercice.
 
-7. ``url(r'^search/', search, name="search"),`` ne renvoie aucune page visible par l'utilisateur mais sert à afficher les données qui seront récupérées par la requête Ajax pour 
+7. L'``url(r'^search/', search, name="search"),`` ne renvoie aucune page visible par l'utilisateur mais sert à afficher les données qui seront récupérées par la requête Ajax pour 
 la recherche d'un exercice.
 
 
@@ -389,215 +389,67 @@ la recherche d'un exercice.
 Les templates
 --------------------------------------
 
+Dans les templates de cette application, on utilise les données présentes dans la base de deux manières différentes:
+
+1.  Soit sous forme de boucle ``for``:
+
+    .. code-block:: html
+        :linenos:
+    
+        
+        {% for line in correction_line %}
+            <p>$$ {{ line }} $$</p>
+        {% endfor %}
+
+2.  Soit sous forme d'appel du champ présent dans les modèles directement sur l'objet d'``Exercise`` ou d'``Exercise_done``.
+    Par exemple:
+    
+        ..code-block:: html
+            :linenos:
+        
+            {{ exercise.equation }}
+            {{ exercise.id }}
+
+De plus, au début de chaque template, on doit intégrer la ligne de code ``{% extends "exercises/index.html" %}`` pour permettre au template traîté 
+d'avoir le même Frontend que le template ``index.html`` qui est le template de base du site.
+    
+    
+
 .......................................
 Le template de base du site
 .......................................
 
 
-Pour ce qui est du Frontend, le thème bootstrap ``shop-item`` est un thème simple nécéssitant que très peu de modifications. Il se trouve `ici <http://startbootstrap.com/template-overviews/shop-item/>`_ [#f11]_ .
-
-Le code du template de base est le suivant:
-
-.. code-block:: html
-    :linenos:
-    
-    {% load staticfiles %}
-    <!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-    
-        <title>{% block title %}Accueil{% endblock %}</title>
-    
-        <!-- Custom CSS -->
-        <link href="{% static 'exercises/css/shop-item.css' %}" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" >
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-        
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="{% static 'exercises/css/style.css' %}">
-        
-        {% block head %}{% endblock %}
-    
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-    
-    </head>
-    
-    <body>
-    
-        <!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">Webmath</a>
-                </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="#">Cours</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'exercises:index' %}">Exercices</a>
-                        </li>
-                        <li>
-                            <a href="http://quiztm-2014-2-blm08.c9.io/quiz/create/">Quiz</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container -->
-        </nav>
-    
-        <!-- Page Content -->
-        <div class="container">
-    
-            <div class="row">
-    
-                <div class="col-md-3">
-                    <p class="lead">Exercices</p>
-                    <div class="list-group">
-                        <a href="{% url 'exercises:index' %}" class="list-group-item {% block active-home %}active{% endblock %}">Accueil</a>
-                        <a href="{% url 'exercises:find' %}" class="list-group-item {% block active-reso %}{% endblock %}">Rechercher un exercice</a>
-                        <a href="{% url 'exercises:create' %}" class="list-group-item {% block active-create %}{% endblock %}">Création d'exercice</a>
-                    </div>
-                </div>
-    
-                {% block content %}
-                <div class="col-md-9">
-    
-                    <div class="thumbnail">
-                        <div class="caption-full">
-                            <h1>Bienvenue!</h1>
-                            <p>Bienvenue sur la page de l'application des exercices de Webmath. Cliquez sur un des onglets selon la fonctionnalité que vous voulez utiliser.</p>
-                        </div>
-                    </div>
-                </div>
-                {% endblock %}
-    
-            </div>
-    
-        </div>
-    </body>
-    
-    </html>
-
-Pour ce qui est de la barre latéral se trouvant à gauche des pages du site, il faut mettre des liens vers les différents template. Ceci se fait non pas en recopiant le lien
-de la page web directement mais en utilisant une formule Django simple qui permet, si il y a un changement d'url par la suite dans le fichier ``urls.py`` de faire automatiquement le changement 
+Pour ce qui est de la barre latéral se trouvant à gauche des pages du site, il faut mettre des liens vers les différents templates. Pour cela, on utilise 
+une formule Django simple qui permet, si il y a un changement d'url par la suite dans le fichier ``urls.py`` de faire automatiquement le changement 
 pour éviter les erreurs de redirection.
 
-le code est le suivant :
 
 .. code-block:: html
     :linenos:
 
     <div class="list-group">
-        <a href="{% url 'exercises:index' %}" class="list-group-item {% block active-home %}
-        active{% endblock %}">Accueil</a>
-        <a href="{% url 'exercises:find' %}" class="list-group-item {% block active-reso %}
-        {% endblock %}">Résoudre un exercice</a>
-        <a href="{% url 'exercises:create' %}" class="list-group-item {% block active-create %}
-        {% endblock %}">Création d'exercice</a>
+        <a href="{% url 'exercises:index' %}" class="list-group-item 
+        {% block active-home %}active{% endblock %}">Accueil</a>
+        
+        <a href="{% url 'exercises:find' %}" class="list-group-item 
+        {% block active-reso %}{% endblock %}">Résoudre un exercice</a>
+        
+        <a href="{% url 'exercises:create' %}" class="list-group-item 
+        {% block active-create %}{% endblock %}">Création d'exercice</a>
+        
     </div>
     
-On constate qu'un block ``{% block active %}`` a été ajouté à chaque lien. Celui-ci permet d'activer la classe ``list-group-item`` dans la page actuel.
-
+Les urls de redirection vers les différentes pages du site sont gérés de la manière ci-dessus. On utilise ``<a href="{% url 'exercises:<nom_du_template>' %}"`` 
+pour renvoyer l'utilisateur vers les ``templates``. Le bloque {% block active-<home, reso ou create> %}{% endblock %} permet de mettre en évidence 
 
 ........................................
-Le template create.html
+Le template ``create.html``
 ........................................
 
 
 Le template ``create.html`` est le template utilisé par les professeurs pour créer l'exercice ainsi que son corrigé. Pour pouvoir enregistrer les données entrées par l'utilisateur,
 la présence de la balise ``<form>`` est absolument nécéssaire. Toutes les données entrées sont traîtés dans la vue relative à ce template.
-
-Voici le template ``exercises/templates/create.html``.
-
-.. code-block:: html
-    :linenos:
-
-    {% extends "exercises/index.html" %}
-    {% load staticfiles %}
-    
-    {% block head %}<script type='text/javascript' src="{% static 'exercises/js/create.js' %}"></script>{% endblock %}
-    {% block title %}Création d'exercice{% endblock %}
-    
-    {% block active-home %}{% endblock %}
-    {% block active-create %}active{% endblock %}
-    {% block content %}
-    <form action="{% url 'exercises:create' %}" method="post">{% csrf_token %}
-        <div class="col-md-9">
-            <div class="thumbnail">
-                <div class="caption-full">
-                    <h1>Création d'exercice</h1>
-                        <div>
-                            <label for="title">Type d'exercice</label>
-                            <SELECT name="type" id='type' class="form-control">
-                		        <OPTION VALUE="Factorisation du 1er degré">Factorisation du 1er degré</OPTION>
-                		        <OPTION VALUE="Factorisation du 2eme degré">Factorisation du 2eme degré</OPTION>
-                		        <OPTION VALUE="Développement du 1er degré">Développement du 1er degré</OPTION>
-                		        <OPTION VALUE="Développement du 2eme degré">Développement du 2eme degré</OPTION>
-                	        </SELECT>
-            	        </div>
-                        <div>
-                            <label for="equation">Equation à résoudre</label>
-                            <input type="text" name="equation" class="form-control equation">
-                        </div>
-                        <div>
-                            <label for="grade">Difficulté</label>
-                        	<SELECT name="grade" class="form-control">
-            	                <OPTION VALUE="1">1</OPTION>
-            	                <OPTION VALUE="2">2</OPTION>
-                        		<OPTION VALUE="3">3</OPTION>
-                        		<OPTION VALUE="4">4</OPTION>
-                        		<OPTION VALUE="5">5</OPTION>
-                        	</SELECT>
-                        </div>
-                            <button type="button" id="voir" class="btn btn-sm btn-primary">Faire le corrigé</button>
-                        </div>
-                    
-                </div>
-            </div>
-        </div>
-        <div class="col-md-offset-3 col-md-9">
-            <div class="thumbnail corrigé">
-                <div class="caption-full">
-                    <h1>Création de son corrigé</h1>
-                    <p class="formule"></p>
-                    <div>
-                        <label for="correction"><br>Développement du corrigé</label>
-                        <textarea id="correction" class="form-control" name="correction"></textarea>
-                    </div>
-                    <input type="submit" class="btn btn-sm btn-primary">
-                </div>
-            </div>
-        </div>
-    </form>
-    {% endblock %}
-
 
 
 Le ``<button id="voir">`` utilise un script se trouvant sous ``exercises/js/create.js``. Ce script est codé en jQuery et permet d'afficher la deuxième partie du formulaire 
@@ -622,7 +474,7 @@ Le voici:
           //en Latex sans avoir à recharger la page
       });
       $("#submit-resolve").click(function() { 
-          if ($("#correction").val()&& $("#equation").val()) {
+          if ($("#correction").val() && $("#equation").val()) {
                   $("#create-form").submit(); // renvoie le formulaire si les
                   // tous les champs sont remplis
               }
@@ -634,60 +486,52 @@ Le voici:
       });
     });
 
+Pour ce qui est du deuxième ``button`` présent dans le template, il utilise le code javascript présent depuis la ligne 11. 
+En utilisant la condition ``if ($("#correction").val() && $("#equation").val())``,on contrôle que tous les champs du formulaire ont été remplis, sinon, on affiche un message d'erreur.
+
 
 
 .........................
-Le template find.html
+Le template ``find.html``
 .........................
 
-Le template de cette page se trouve sous le fichier ``static/exercises/templates/find.html``. Ce template comporte tous les exercices déjà présent dans la base de donnée.
+Le template de cette page se trouve sous le fichier ``static/exercises/templates/find.html``. Ce template comporte tous les exercices déjà présent dans la base de données.
 
-Voici le template:
+La fonctionnalité permettant la recherche d'un exercice nécessite le code ``html`` suivant :
 
 .. code-block:: html
     :linenos:
 
-    {% extends "exercises/index.html" %}
-    {% load staticfiles %}
-    {% block title %}Résolution d'exercice{% endblock %}
-    {% block active-home %}{% endblock %}
-    {% block active-reso %}active{% endblock %}
-    {% block head %}<script type='text/javascript' src="{% static 'exercises/js/find.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'exercises/css/find.css' %}"/>
-    {% endblock %}
-    {% block content %}
-    <div class="col-md-9">
-        <div class="thumbnail">
-            <div class="caption-full">
-                <h1>Rechercher un exercice</h1>
-                <div>
-                    <label for="search">Entrez le numéro de l'exercice</label>
-                    <input type="text" id="search_input" name="search" class="form-control">
-                    <button type="button" id="search" name="search" class="btn btn-warning">Rechercher</button>
-                </div>
-                <div class="alert alert-info" id="true">
-                    <strong>Succès!</strong> <span id="lien"></span> de l'exercice en question.
-                </div>
-                <div class="alert alert-info" id="false">
-                    <strong>Erreur!</strong> Cet exercice n'existe pas ou n'existe plus, veuillez entrez un autre numéro
-                </div>
-                <div>
-                    {% for exercise in exercises_list %}
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            <a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}: {{ exercise.owner }} no{{ exercise.id }} difficulté :{{ exercise.grade }}</a>
-                        </div>
-                        <div class="panel-body">
-                            <a id ="resolve" href="{% url 'exercises:done' exercise.id %}">Les résolutions des élèves</a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
+    <div>
+        <label for="search">Entrez le numéro de l'exercice</label>
+        <input type="text" id="search_input" name="search" class="form-control">
+        <button type="button" id="search" name="search" class="btn btn-warning">Rechercher
+        </button>
+    </div>
+    <div class="alert alert-info" id="true">
+        <strong>Succès!</strong> <span id="lien"></span> de l'exercice en question.
+    </div>
+    <div class="alert alert-info" id="false">
+        <strong>Erreur!</strong> Cet exercice n'existe pas ou n'existe plus,
+         veuillez entrez un autre numéro
+    </div>
+    <div>
+
+
+
+.. code-block:: html
+    :linenos:
     
-            </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <a href="{% url 'exercises:resolve' exercise.id %}">{{ exercise.title }}:
+            {{ exercise.owner }} no{{ exercise.id }} difficulté :{{ exercise.grade }}</a>
+        </div>
+        <div class="panel-body">
+            <a id ="resolve" href="{% url 'exercises:done' exercise.id %}">
+            Les résolutions des élèves</a>
         </div>
     </div>
-    {% endblock %}
 
     
 Grâce au script de cette page se trouvant dans ``static/exercises/js/find.js``, la vue ``search`` analysée auparavant prend tout son sens car ce script utilise les données trouvées par
@@ -734,7 +578,7 @@ ajax pour les formater et les mettre en page en utilisant le code suivant:
 
 
 ...........................
-Le template resolve.html 
+Le template ``resolve.html`` 
 ...........................
 
 
@@ -742,50 +586,18 @@ Le template resolve.html
 .. code-block:: html
     :linenos:
 
-    {% extends "exercises/index.html" %}
-    {% load staticfiles %}
-    {% block head %}<script type='text/javascript' src="{% static 'exercises/js/resolve.js' %}"></script>{% endblock %}
-    {% block title %}Résolution d'exercice{% endblock %}
-    {% block active-home %}{% endblock %}
-    {% block active-reso %}active{% endblock %}
-    {% block content %}
-    <div class="col-md-9">
-        <div class="thumbnail">
-            <div class="caption-full">
-                <h1 id="title">{{ exercise.title }}</h1>
-                <div class="thumbnail">
-                    <p id ="donnee">{{ exercise.donnee }}</p>
-                    <p>$$ {{ exercise.equation }} $$</p>
-                    <h6>crée le :{{ exercise.created_on  }}</h6>
-                    <form id="resolve-form" action="{% url 'exercises:resolve' id %}" method="post">{% csrf_token %}
-                        <div>
-                            <label for="response">Résoudre l'équation</label>
-                            <textarea type="text" id="response" name="response" class="form-control"></textarea>
-                        </div>
-                        <button type="button" id="submit-resolve" class="btn btn-sm btn-primary">Soumettre et voir le corrigé</button>
-                        <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
-                    </form>
-                </div>
-            </div>
+    <form id="resolve-form" action="{% url 'exercises:resolve' id %}" method="post">
+    {% csrf_token %}
+        <div>
+            <label for="response">Résoudre l'équation</label>
+            <textarea type="text" id="response" name="response" class="form-control">
+            </textarea>
         </div>
-    </div>
-    <div class="modal fade" id="form-warning">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Erreur</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Vous devez remplir tous les champs pour soumettre votre réponse</p>
-                </div>
-                <div class="modal-footer">
-                    <a type="button" class="btn btn-success" data-dismiss="modal">Ok</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endblock %}
+        <button type="button" id="submit-resolve" class="btn btn-sm btn-primary">
+        Soumettre et voir le corrigé</button>
+        <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
+    </form>
+
 
 
 .. code-block:: javascript
@@ -805,83 +617,39 @@ Le template resolve.html
       });
     });
 
-............................
-le template correction.html
-............................
-
-.. code-block:: html
-    :linenos:
-
-    {% extends "exercises/index.html" %}
-    {% load staticfiles %}
-    {% block title %}Correction{% endblock %}
-    {% block active-home %}{% endblock %}
-    {% block active-reso %}active{% endblock %}
-    {% block content %}
-    <div class="col-md-9">
-        <div class="thumbnail">
-            <div class="caption-full">
-                <h1>Corrigé de l'exercice</h1>
-                {% for line in correction_line %}
-                    <p>$$ {{ line }} $$</p>
-                {% endfor %}
-                <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
-            </div>
-        </div>
-    </div>
-    {% endblock %}
 
 
 .........................
-le template done.html
+le template ``done.html``
 .........................
 
 
 .. code-block:: html
     :linenos:
     
-    {% extends "exercises/index.html" %}
-    {% load staticfiles %}
-    {% block title %}Exercice fait par les élèves{% endblock %}
-    {% block active-home %}{% endblock %}
-    {% block active-reso %}active{% endblock %}
-    {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static 'exercises/css/done.css' %}"/>
-    {% endblock %}
-    {% block content %}
-    <div class="col-md-9">
+    
+    <h2>Voici l'équation de l'exercice no{{ exercise.id }}</h2>
+    <h1 class="resolve">$$ {{ exercise.equation }} $$</h1>
+    <h2 id="titre">Résolution des élèves</h2>
+    {% if exercises_done %}
+    {% for exercise in exercises_done %}
         <div class="thumbnail">
             <div class="caption-full">
-                <div>
-                    <h2>Voici l'équation de l'exercice no{{ exercise.id }}</h2>
-                    <h1 class="resolve">$$ {{ exercise.equation }} $$</h1>
-                    <h2 id="titre">Résolution des élèves</h2>
-                    {% if exercises_done %}
-                    {% for exercise in exercises_done %}
-                        <div class="thumbnail">
-                            <div class="caption-full">
-                                <h2>{{ exercise.student }}</h2>
-                                {% for element in exercise.get_lines %}
-                                <h2 class="resolve">$$ {{ element }} $$</h2>
-                                {% endfor %}
-                                <p id="date">Fait le : {{ exercise.do_on }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                    {% else %}
-                    <div class="thumbnail">
-                        <div class="caption-full">
-                            <h4 class="resolve">Aucune résolution effectuée pour cet exercice</h4>
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-                    <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
-                </div>
+                <h2>{{ exercise.student }}</h2>
+                {% for element in exercise.get_lines %}
+                <h2 class="resolve">$$ {{ element }} $$</h2>
+                {% endfor %}
+                <p id="date">Fait le : {{ exercise.do_on }}</p>
             </div>
         </div>
+    {% endfor %}
+    {% else %}
+    <div class="thumbnail">
+        <div class="caption-full">
+            <h4 class="resolve">Aucune résolution effectuée pour cet exercice</h4>
+        </div>
     </div>
-    {% endblock %}
+    {% endif %}
 
 
 .. rubric::
