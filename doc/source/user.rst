@@ -123,7 +123,7 @@ Sur cette page, il y a différents onglets cliquables:
 
 
 ...............................
-La page de création d'exercice
+La page de création d'exercices
 ...............................
 
 La page de création d'exercice n'est accessible que par les professeurs.
@@ -214,7 +214,7 @@ Dans le cas où l'exercice n'existe pas, un message d'erreur apparaît.
 
 
 ..................................
-La page de résolution d'exercice
+La page de résolution d'exercices
 ..................................
 
 La page de résolution d'exercice est assez similaire à la page de création. En effet, il y a également la présence d'un formulaire que l'élève doit remplir.
