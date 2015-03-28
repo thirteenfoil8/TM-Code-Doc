@@ -82,12 +82,18 @@ Les modèles
         La fonction ``def __str__(self)`` a le même but que pour la table ``Exercise``. Pour ce qui est de la fonction ``def get_lines(self):`` nous permet de retourner une liste avec chaque ligne 
         de la résolution de l'élève. Cette fonction sera utile dans le template ``done.html`` par la suite. 
 
+.. raw:: latex
+
+    \pagebreak
+
 2. La relation:
 
   .. figure:: figures/DiagrammeUML.png
     :align: center
     
     *Diagramme UML du modèle relationnel*
+    
+
 
 
 Ces deux modèles sont reliés entre eux grâce à une ``ForeignKey`` qui est présente dans la table ``Exercise_done``. Cela signifie qu'un exercice peut posséder plusieurs résolutions, 
@@ -96,6 +102,7 @@ mais qu'une résolution ne répond qu'à un exercice.
 .. raw:: latex
 
     \pagebreak
+
 
 3. Le code:
 
@@ -200,7 +207,11 @@ Les différents ``import`` à faire dans la vue du template de base ``index.html
         return render(request, 'exercises/index.html')
     
     # @login_required demande à l'utilisateur d'être connecté
-    # @user_passes_test(is_teacher) restreint l'accès seulement au teachers 
+    # @user_passes_test(is_teacher) restreint l'accès seulement au teachers
+    
+.. raw:: latex
+
+    \pagebreak
 
 ......................................
 La vue create
@@ -257,6 +268,11 @@ La fonction ``return`` retourne ici le template ``find.html`` mais également un
         return render(request, 'exercises/find.html', {"exercises_list" : \
         latest_exercise_list})
 
+.. raw:: latex
+
+    \pagebreak
+
+
 ......................................
 La vue resolve
 ......................................
@@ -291,7 +307,6 @@ Le return de la condition ``if`` renvoie l'utilisateur sur la page du corrigé d
     
 
 
-
 ......................................
 La vue correction
 ......................................
@@ -309,6 +324,11 @@ de la résolution. Cette liste est retournée dans le template grâce à la fonc
         correction = get_object_or_404(Exercise, id=n_exercise)
         correction_line = correction.correction.split("\n")
         return render(request,'exercises/correction.html', locals())
+
+.. raw:: latex
+
+    \pagebreak
+
 
 
 .....................................
@@ -422,6 +442,10 @@ Par convention, on nomme les urls d'un application du même nom que son template
         url(r'^search/', search, name="search"),
     )
 
+.. raw:: latex
+
+    \pagebreak
+
 
 Dès qu'il y a la présence de ``(\d+)/``, cela appelera la vue sur laquelle l'url dirige en utilisant le nombre entré à la suite de 
 ``/exercices/X`` ( ou X est un des urls situés ci-dessus ) comme valeur de l'argument ``n_exercise``. 
@@ -474,7 +498,10 @@ Dans les templates de cette application, on utilise les données présentes dans
 De plus, au début de chaque template, on doit intégrer la ligne de code ``{% extends "exercises/index.html" %}`` pour permettre au template traîté 
 d'avoir les mêmes attributs que le template de base ``index.html``
     
-    
+.. raw:: latex
+
+    \pagebreak
+   
 
 .......................................
 Le template de base du site
@@ -505,7 +532,12 @@ est parfait car il est simple, ergonomique et ne demande que très peu de modifi
     </div>
     
 Les urls de redirection vers les différentes pages du site sont gérés ci-dessus. On utilise ``<a href="{% url 'exercises:<nom_du_template>' %}"`` 
-pour renvoyer l'utilisateur vers les ``templates``. Le bloque {% block active-<home, reso ou create> %}{% endblock %} permet d'activer une classe sur l'onglet actuel. 
+pour renvoyer l'utilisateur vers les ``templates``. Le bloque {% block active-<home, reso ou create> %}{% endblock %} permet d'activer une classe sur l'onglet actuel.
+
+.. raw:: latex
+
+    \pagebreak
+
 
 ........................................
 Le template ``create.html``
@@ -554,6 +586,9 @@ La documentation de Mathjax se trouve `ici <https://www.mathjax.org/#docs>`_ [#f
 Le deuxième ``button`` présent dans le template, utilise le code javascript présent depuis la ligne 11. 
 La condition ``if ($("#correction").val() && $("#equation").val())`` contrôle que tous les champs du formulaire ont été remplis, sinon, le ``else`` affiche un message d'erreur.
 
+.. raw:: latex
+
+    \pagebreak
 
 
 .........................
@@ -593,39 +628,36 @@ Le code est le suivant:
 .. code-block:: javascript
     :linenos:
 
-    $(document).ready(function() {
-        $('#false').hide(); // Cache les divs #false et #true
+    $("#search").click(function() {
+        $("#lien").empty(); // Supprime l'éventuelle ancienne valeur
+        var $search = $("#search_input").val(); // enregistre la valeur de
+        //la recherche
+        $('#false').hide();
         $('#true').hide();
-        $("#search").click(function() {
-            $("#lien").empty(); // Supprime l'éventuelle ancienne valeur
-            var $search = $("#search_input").val(); // enregistre la valeur de
-            //la recherche
-            $('#false').hide();
-            $('#true').hide();
-            
-            $.ajax({
-                url: "/exercises/search/",
-                type: "GET",
-                dataType: "json",
-                data : {
-                    search : $search, //récupère les données de la recherche par
-                    //rapport à l'exercice recherché ( $search )
-                },
-                success : function(response) { // Ajoute le lien de l'exercice si
-                //il existe et l'affiche à l'utilisateur dans la div #true
-                    var $url= response["url"];
-                    $('#true').show();
-                    $("<a>", {
-                    "href": $url,
-                    }).text("Voici le lien").appendTo("#lien");
-                },
-                error : function() { // Affiche le message d'erreur si l'exercice
-                //n'existe pas 
-                    $("#false").show();
-                }
-            });
+        
+        $.ajax({
+            url: "/exercises/search/",
+            type: "GET",
+            dataType: "json",
+            data : {
+                search : $search, //récupère les données de la recherche par
+                //rapport à l'exercice recherché ( $search )
+            },
+            success : function(response) { // Ajoute le lien de l'exercice si
+            //il existe et l'affiche à l'utilisateur dans la div #true
+                var $url= response["url"];
+                $('#true').show();
+                $("<a>", {
+                "href": $url,
+                }).text("Voici le lien").appendTo("#lien");
+            },
+            error : function() { // Affiche le message d'erreur si l'exercice
+            //n'existe pas 
+                $("#false").show();
+            }
         });
     });
+
 
 Les commentaires parlent d'eux même. Si l'id de l'exercice existe, on affiche la div :``<div id="true">`` contenant le lien de l'exercice en question sinon, on affiche la 
 div : ``<div id="false">`` indiquant que l'exercice n'existe pas.
@@ -648,6 +680,10 @@ résolutions des élèves. Cette dernière est accessible que par les professeur
     </div>
 
 ``<div class="panel-heading">`` redirige vers la page de résolutions et ``<div class="panel-body">`` vers les résolutions des élèves.
+
+.. raw:: latex
+
+    \pagebreak
 
 
 ............................
@@ -696,6 +732,9 @@ Le fichier javascript se trouve dans ``static/exercises/js/resolve.js``.
       });
     });
 
+.. raw:: latex
+
+    \pagebreak
 
 
 .........................
