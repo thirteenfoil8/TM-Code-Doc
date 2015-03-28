@@ -9,7 +9,7 @@
         <div class="caption-full">
             <h1>Corrigé de l'exercice</h1>
             {% for line in correction_line %}
-                <p>$$ {{ line }} $$</p>
+                <h3>$$ {{ line }} $$</h3>
             {% endfor %}
             <a class="btn btn-sm btn-primary" href="{% url 'exercises:find' %}">Retour</a>
         </div>

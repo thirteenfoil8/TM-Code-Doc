@@ -137,6 +137,36 @@ mais qu'une résolution ne fait partie que d'un exercice.
             def get_lines(self): 
                 return self.resolution.split("\n")
 
+4.  Utilisation:
+
+    Pour ce qui est de l'utilisation, lorsque l'on enregistre un formulaire dans la base de données, le code est d'abord écrit grâce au méthode offert par Django, puis, 
+    il est traduit en SQL.
+    
+    En premier lieu, il faut récupérer tous les objets déja existant grâce au code suivant:
+    
+    .. code-block:: python
+    
+        Exercise.objects.all()
+
+
+    Ensuite, pour ce qui est de la création d'exercice, la méthode ``.save()`` de Django sert à enregister un objet et le traduire en SQL. 
+    
+    .. code-block:: python
+        :linenos:
+        
+        # ici, on utilise un formulaire.
+        if request.method == 'POST': 
+            title = request.POST['type']
+            equation = request.POST['equation']
+            grade = request.POST['grade']
+            correction = request.POST['correction']
+            owner = request.user.username
+            Exercise(title=title, owner=owner, equation=equation, grade=grade, \
+            correction=correction).save() # On crée l'exercice
+
+
+
+
 --------------------------------------
 Les vues
 --------------------------------------
