@@ -198,7 +198,7 @@ latex_elements = {
     'classoptions': ',openany,oneside',
     'papersize':'a4paper',
     'date': '30 Mars 2015',
-    'title': u"Développement d'une application de création d'exercices de factorisation et de développement",
+    'title': u"Application d'exercices interactifs sur les polynômes du premier et deuxième degré",
     'release': u'Travail de maturité',
     'releasename': u'Collège du sud,',
     'author': 'Florian Genilloud',
