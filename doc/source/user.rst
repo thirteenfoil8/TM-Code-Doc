@@ -8,10 +8,10 @@ En premier lieu, une explication de comment fonctionne le site du côté des uti
 Les fonctionnalités
 --------------------------------------
 
-Il est a noté que ce site internet possède un système d'authentification. Il est donc indispensable de se connecter avant de pouvoir utiliser les fonctionnalités du site.
-Pour ce connecter, il suffit de cliquer sur *Rechercher un exercice* ou *Création d'exercice* pour être rediriger vers la page d'inscription ou de connection.
-Il existe deux types de compte pour cette application, un compte professeur ou un compte élève. Cela veut dire que les fonctionnalités qu'un compte professeur possède 
-ne sont pas les mêmes qu'un compte élève. En effet, un professeur peut accéder à toutes les pages du site, cependant, les droits de élève sont moindres.
+Il est à noter que ce site internet possède un système d'authentification. Il est donc indispensable de se connecter avant de pouvoir utiliser les fonctionnalités du site.
+Pour se connecter, il suffit de cliquer sur *Rechercher un exercice* ou *Création d'exercice* pour être redirigé vers la page d'inscription ou de connection.
+Il existe deux types de compte pour cette application, un compte professeur et un compte élève. Cela veut dire que les fonctionnalités qu'un compte professeur possède 
+ne sont pas les mêmes qu'un compte élève. En effet, un professeur peut accéder à toutes les pages du site, cependant, les droits de l'élève sont moindres.
 
 
 
@@ -28,7 +28,7 @@ Les fonctionnalités qu'un professeur possède sont les suivantes:
     En parallèle à l'exercice créé, il doit créer son corrigé.
 
 2. Contrôler la résolution des élèves:
-    Pour que l'exercice puisse avoir un suivi de son créateur, un page s'occupant d'afficher toutes les résolutions faites par les élèves est disponible. Sur cette page , 
+    Pour que l'exercice puisse avoir un suivi de son créateur, une page s'occupant d'afficher toutes les résolutions faites par les élèves est disponible. Sur cette page , 
     le professeur voit l'équation de l'exercice qu'il a fait mais également les résolutions accompagnées du nom de l'élève et de la date de résolution.
     
 
@@ -98,28 +98,28 @@ La page d'accueil sert simplement à l'utilisateur d'accéder au site sans avoir
     
     *La page d'accueil*
 
-Sur cette page, il y a différents onglets cliquables:
+Sur cette page, il y a différents onglets utilisables:
 
 * *Webmath*
     Cet onglet renvoie sur la page d'accueil.
 
 * *Cours*
-    Celui-ci ne renvoie vers aucune page pour le moment (en développement).
+    Cet onglet renvoie vers aucune page pour le moment (en développement).
 
 * *Exercices*
-    Celui-ci renvoie vers la page d'accueil de l'application exercice.
+    Cet onglet renvoie vers la page d'accueil de l'application exercice.
 
 * *Quiz*
     Cet onglet redirige l'utilisateur vers la page d'accueil de l'application Quiz.
 
 * *Accueil*
-    Celui-ci renvoie vers la page d'accueil de l'application exercice.
+    Cet onglet renvoie vers la page d'accueil de l'application exercice.
 
 * *Rechercher un exercice*
     Cet onglet redirige l'utilisateur vers la page de recherche d'exercice. 
 
 * *Création d'exercice*
-    Et finalement, l'onglet *Création d'exercice* renvoie vers la page de création d'exercice.
+    Cet onglet renvoie vers la page de création d'exercice.
 
 
 ...............................
@@ -145,11 +145,11 @@ On remarque que sur cette page, on demande à l'utilisateur d'entrer des donnée
     L'utilisateur entre l'équation qui sera résolue par un élève.
 
 * *Difficulté*
-    De nouveau, on choisit entre les possibilités de la liste déroulante. Cela donne une indication de la difficulté de l'exercice à l'élève. Cette difficulté est croissante de 1 jusqu'à 5.
+    On choisit entre les possibilités de la liste déroulante. Cela donne une indication de la difficulté de l'exercice à l'élève. Cette difficulté est croissante de 1 jusqu'à 5.
 
 De plus, le bouton *Faire le corrigé* permet d'afficher la suite du formulaire que l'utilisateur doit remplir.
 
-Voici un exemple de comment remplir un formulaire. Pour ce qui est du corrigé, il faut entrer chaque étape de l'équation ligne par ligne.
+Voici un exemple pour remplir un formulaire. Pour ce qui est du corrigé, il faut entrer chaque étape de l'équation ligne par ligne.
 Une fois le corrigé fini, le bouton *Soumettre l'exercice* enregistre les données du formulaire et redirige le professeur vers la page d'accueil.
 
 .. figure:: figures/createok.png
@@ -159,7 +159,7 @@ Une fois le corrigé fini, le bouton *Soumettre l'exercice* enregistre les donn�
     *Remplir le formulaire de création*
 
 
-Si il manque une donnée, le message suivant s'affiche.
+S'il manque une donnée, le message suivant s'affiche.
 
 .. figure:: figures/error.png
     :align: center
@@ -225,10 +225,10 @@ Sur cette page, trois boutons sont disponibles:
     Ce bouton enregistre la résolution et renvoie l'élève vers le corrigé.
 
 * *Résolutions de cet exercice*
-    Celui-ci renvoie l'utilisateur qui doit être un professeur vers la page contenant les résolutions des élèves.
+    Ce bouton renvoie l'utilisateur qui doit être un professeur vers la page contenant les résolutions des élèves.
 
 * *Retour*
-    Et finalement, le bouton *Retour* redirige l'utilisateur à la page de recherche.
+    Ce bouton redirige l'utilisateur à la page de recherche.
 
 
 .. figure:: figures/resolve.png
@@ -245,7 +245,7 @@ Voici un exemple de résolution:
     
     *Exemple de résolution*
 
-Si il manque une donnée, le message suivant s'affiche.
+S'il manque une donnée, le message suivant s'affiche.
 
 .. figure:: figures/error.png
     :align: center
@@ -274,7 +274,7 @@ Un bouton *Retour* permet de retourner à la page de recherche.
     
     *La page des résolutions d'un exercice*
 
-De plus, si un exercice possède encore aucune résolution, le message suivant s'affiche.
+De plus, si un exercice ne possède encore aucune résolution, le message suivant s'affiche.
 
 
 .. figure:: figures/done_no.png

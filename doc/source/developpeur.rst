@@ -4,7 +4,7 @@ Documentation du développeur
 
 Cette partie de la documentation est essentiellement destinée au développeur pour mieux comprendre le fonctionnement de l'application.
 Tout ce qui concerne les modèles, les vues, les URLs, les templates, ... est affiché ci-dessous. Le code est accompagné de quelques annotations mais celles-ci sont là 
-que pour donner quelques précisions quant à celui-ci. Il est donc nécessaire de connaître les languages de programmation et les frameworks suivant pour comprendre la documentation 
+que pour donner quelques précisions quant à celui-ci. Il est donc nécessaire de connaître les languages de programmation et les frameworks suivants pour comprendre la documentation 
 du développeur: 
 
 * Les languages de programmation:
@@ -37,7 +37,7 @@ Démarrage du projet depuis Cloud9
 ---------------------------------
 
 L'utilisation de l'environnement Web `Cloud9 <https://c9.io/>`_ [#f8]_ est très utile. Il permet d'éviter la surcharge de la machine sur laquelle on travaille
-et permet au code d'être accessible de tout ordinateur possédant une connection internet. 
+et permet au code d'être accessible à tout ordinateur possédant une connection internet. 
 Une fois sur Cloud9, il faut créer un *Workspace custom* en cliquant sur l'onglet *create new workspace*. 
 Voici la série de commandes à entrer pour pouvoir démarrer le projet :
 
@@ -56,7 +56,7 @@ Voici la série de commandes à entrer pour pouvoir démarrer le projet :
     python3 manange.py runserver $IP:$PORT
 
 
-Il est a noté que le projet contenant l'entier des fichiers est sur un `dépôt <https://github.com/thirteenfoil8/TM-Code-Doc>`_ [#f9]_ GitHub. 
+Il est à noter que le projet contenant l'entier des fichiers est sur un `dépôt <https://github.com/thirteenfoil8/TM-Code-Doc>`_ [#f9]_ GitHub. 
 Une fois ces commandes entrées dans le ``bash``, l'entier du projet sera présent dans le *workspace*.
 
 
@@ -79,7 +79,7 @@ Les modèles
         
         Ce modèle contient les informations concernant la résolution d'un exercice traité par un élève. Il contient le nom de l'élève : ``student``, la date à laquelle l'élève a fait l'exercice : 
         ``do_on``, l'exercice auquel la résolution fait référence : ``exercise_done`` et la résolution de l'élève : ``resolution``.
-        La fonction ``def __str__(self)`` a le même but que pour la table ``Exercise``. Pour ce qui est de la fonction ``def get_lines(self):`` nous permet de retourner une liste avec chaque ligne 
+        La fonction ``def __str__(self)`` a le même but que pour la table ``Exercise``. Pour ce qui est de la fonction ``def get_lines(self):``. Celle-ci nous permet de retourner une liste avec chaque ligne 
         de la résolution de l'élève. Cette fonction sera utile dans le template ``done.html`` par la suite. 
 
 .. raw:: latex
@@ -145,10 +145,10 @@ mais qu'une résolution ne répond qu'à un exercice.
 
 4.  Utilisation:
 
-    Pour ce qui est de l'utilisation, lorsqu'on enregistre un formulaire dans la base de données, le code est d'abord traité grâce au méthode offert par Django puis, 
+    Pour ce qui est de l'utilisation, lorsqu'on enregistre un formulaire dans la base de données, le code est d'abord traité grâce aux méthodes offertes par Django puis, 
     il est traduit en SQL.
     
-    En premier lieu, il faut récupérer tous les objets déja existant grâce au code suivant:
+    En premier lieu, il faut récupérer tous les objets déja existants grâce au code suivant:
     
     .. code-block:: python
     
@@ -182,12 +182,12 @@ Toutes les vues en lien avec cette application se trouve dans ``MainProject/webm
 Par la suite, deux points seront assez récurrents:
 
 1. L'appel ``@login_required``:
-    Cet appel là permet de demander à l'utilisateur d'être connecté pour pouvoir aller sur la page en question.
+    Cet appel permet de demander à l'utilisateur d'être connecté pour pouvoir aller sur la page en question.
 
 2. L'appel ``@user_passes_test(is_teacher)``:
     Cet appel est plus strict et sert à préciser que seul un professeur peut se diriger vers la page.
     
-Ces deux appels viennent des applications common et permission qui gèrent les authentifications et les permissions d'un utilisateur.
+Ces deux appels viennent des applications ``common`` et ``permission`` qui gèrent les authentifications et les permissions d'un utilisateur.
 
 Les différents ``import`` à faire dans la vue du template de base ``index.html`` sont les suivants :
 
@@ -255,7 +255,7 @@ Dans le cas où un enregistrement des données est demandé par l'utilisateur, c
 La vue find
 ......................................
 
-La vue ``find`` utilise la fonction ``objects.all()`` qui assigne à ``latest_exercise_list`` une liste comportant tous les exercices présent dans la table ``Exercise``.
+La vue ``find`` utilise la fonction ``objects.all()`` qui assigne à ``latest_exercise_list`` une liste comportant tous les exercices présents dans la table ``Exercise``.
 La fonction ``return`` retourne ici le template ``find.html`` mais également un dictionnaire possédant la variable ``latest_exercise_list``.
 
 .. code-block:: python
@@ -453,19 +453,19 @@ Par exemple, ``/exercices/done/1`` retournera la page des résolutions de l'exer
 retournera une erreur 404.
 
 
-1. L'``URL(r'^$', index, name="index")`` renvoie la page d'accueil du site.
+1. L'``URL(r'^$', index, name="index")`` renvoie à la page d'accueil du site.
 
-2. L'``URL(r'^create/$', create, name="create"),`` renvoie la page de création d'exercices, accessible que par les professeurs.
+2. L'``URL(r'^create/$', create, name="create"),`` renvoie à la page de création d'exercices, accessible que par les professeurs.
 
-3. L'``URL(r'^find/$', find, name="find"),`` renvoie la page de recherche des exercices.
+3. L'``URL(r'^find/$', find, name="find"),`` renvoie à la page de recherche des exercices.
 
-4. L'``URL(r'^done/(\d+)/$', done, name="done"),`` renvoie la page comportant les résolutions des élèves par rapport à un exercice.
+4. L'``URL(r'^done/(\d+)/$', done, name="done"),`` renvoie à la page comportant les résolutions des élèves par rapport à un exercice.
 
-5. L'``URL(r'^resolve/(\d+)/$', resolve, name="resolve"),`` renvoie la page de résolutions d'un exercice.
+5. L'``URL(r'^resolve/(\d+)/$', resolve, name="resolve"),`` renvoie à la page de résolution d'un exercice.
 
-6. L'``URL(r'^correction/(\d+)/$', correction, name='correction'),`` renvoie la page de correction d'un exercice.
+6. L'``URL(r'^correction/(\d+)/$', correction, name='correction'),`` renvoie à la page de correction d'un exercice.
 
-7. L'``URL(r'^search/', search, name="search"),`` ne renvoie aucune page visible par l'utilisateur mais sert à afficher les données qui seront récupérées par la requête Ajax pour la recherche d'un exercice.
+7. L'``URL(r'^search/', search, name="search"),`` ne renvoie à aucune page visible par l'utilisateur mais sert à afficher les données qui seront récupérées par la requête Ajax pour la recherche d'un exercice.
 
 
 
@@ -545,11 +545,11 @@ Le template ``create.html``
 
 
 Le template ``create.html`` est utilisé par les professeurs pour créer un exercice ainsi que son corrigé. Pour pouvoir enregistrer les données,
-la présence de la balise ``<form>`` est obligatoire. Toutes les données entrées sont traités dans la vue du template.
+la présence de la balise ``<form>`` est obligatoire. Toutes les données entrées sont traitées dans la vue du template.
 
 
 Le ``<button id="voir">`` utilise un script se trouvant sous ``exercises/js/create.js``. Ce script affiche la deuxième partie du formulaire 
-et, grâce à la méthode ``MathJax.Hub.Queue(["Typeset", MathJax.Hub])``, formate l'équation entrée précédement en la mettant sous une forme mathématique.
+et, grâce à la méthode ``MathJax.Hub.Queue(["Typeset", MathJax.Hub])``, formate l'équation entrée précédemment en la mettant sous une forme mathématique.
  
     
 
@@ -595,7 +595,7 @@ La condition ``if ($("#correction").val() && $("#equation").val())`` contrôle q
 Le template ``find.html``
 .........................
 
-Ce template comporte tous les exercices déjà présent dans la base de données.
+Ce template comporte tous les exercices déjà présents dans la base de données.
 
 La fonctionnalité permettant la recherche d'un exercice nécessite le code ``html`` suivant :
 
@@ -659,10 +659,10 @@ Le code est le suivant:
     });
 
 
-Les commentaires parlent d'eux même. Si l'id de l'exercice existe, on affiche la div :``<div id="true">`` contenant le lien de l'exercice en question sinon, on affiche la 
+Les commentaires parlent d'eux-mêmes. Si l'id de l'exercice existe, on affiche la div :``<div id="true">`` contenant le lien de l'exercice en question sinon, on affiche la 
 div : ``<div id="false">`` indiquant que l'exercice n'existe pas.
 
-Les ``panel`` de Bootstrap sont très clairs et permette de bien différencier la page de résolution de l'exercice et la page contenant les 
+Les ``panel`` de Bootstrap sont très clairs et permettent de bien différencier la page de résolution de l'exercice et la page contenant les 
 résolutions des élèves. Cette dernière est accessible que par les professeurs.
 
 .. code-block:: html
@@ -742,7 +742,7 @@ le template ``done.html``
 .........................
 
 Le template ``done.html`` utilise la fonction ``get_lines`` présent dans ``models.py`` pour créer une liste contenant toutes les résolutions faites pour un exercice.
-LA liste est traité à l'aide d'une boucle ``for`` pour séparer les résolutions et rendre la page plus claire.
+La liste est traitée à l'aide d'une boucle ``for`` pour séparer les résolutions et rendre la page plus claire.
 Si l'exercice ne comporte aucune résolution, on affiche le texte suivant : "Aucune résolution effectuée pour cet exercice"
 
 .. code-block:: html
