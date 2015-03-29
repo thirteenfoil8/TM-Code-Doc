@@ -3,7 +3,7 @@ Documentation du développeur
 ####################################
 
 Cette partie de la documentation est essentiellement destinée au développeur pour mieux comprendre le fonctionnement de l'application.
-Tout ce qui concerne les modèles, les vues, les urls, les templates, ... est affiché ci-dessous. Le code est accompagné de quelques annotations mais celles-ci sont là 
+Tout ce qui concerne les modèles, les vues, les URLs, les templates, ... est affiché ci-dessous. Le code est accompagné de quelques annotations mais celles-ci sont là 
 que pour donner quelques précisions quant à celui-ci. Il est donc nécessaire de connaître les languages de programmation et les frameworks suivant pour comprendre la documentation 
 du développeur: 
 
@@ -11,7 +11,7 @@ du développeur:
 
   * `Python <https://docs.python.org/3/>`_ [#f1]_
   
-  * `Html  <http://overapi.com/html/>`_ [#f2]_ 
+  * `HTML  <http://overapi.com/html/>`_ [#f2]_ 
   
   * `Css  <http://overapi.com/css/>`_ [#f3]_
   
@@ -387,18 +387,18 @@ Une méthode Ajax est nécessaire pour éviter de recharger la page à chaque no
 
 
 --------------------------------------
-Les urls
+Les URLs
 --------------------------------------
 
 
 
 ......................................
-Les urls de la racine du projet
+Les URLs de la racine du projet
 ......................................
 
-Les urls du code suivant servent tout simplement à indiquer les urls de base de l'application. Cela veut dire que suite à l'url http://webmath-thirteenfoil8.c9.io/ [#f11]_ , 
+Les URLs du code suivant servent tout simplement à indiquer les URLs de base de l'application. Cela veut dire que suite à l'URL http://webmath-thirteenfoil8.c9.io/ [#f11]_ , 
 un simple rajout de: ``admin``, ``exercises``, ``common`` ou ``permission``, amenera l'utilisateur directement à la base d'une des applications du projet.
-À cela, il faut signaler la présence de la fonction ``include()`` permet à chaque url présent dans les applications de pouvoir s'ajouter à l'url de base. Les urls de l'application ``exercises``
+À cela, il faut signaler la présence de la fonction ``include()`` permet à chaque URL présent dans les applications de pouvoir s'ajouter à l'URL de base. Les URLs de l'application ``exercises``
 sont expliqués dans la rubrique suivante.
 
 .. code-block:: python
@@ -419,11 +419,11 @@ sont expliqués dans la rubrique suivante.
 
 
 ......................................
-Les urls de l'application exercises
+Les URLs de l'application exercises
 ......................................
 
 Tout d'abord, on importe les vues qui seront utilisées dans l'application. Pour cela, on indique dans quel répertoire les vues se trouvent(cf. ligne3). 
-Par convention, on nomme les urls d'un application du même nom que son template et de sa vue.
+Par convention, on nomme les URLs d'un application du même nom que son template et de sa vue.
 
 .. code-block:: python
     :linenos:
@@ -447,25 +447,25 @@ Par convention, on nomme les urls d'un application du même nom que son template
     \pagebreak
 
 
-Dès qu'il y a la présence de ``(\d+)/``, cela appelera la vue sur laquelle l'url dirige en utilisant le nombre entré à la suite de 
-``/exercices/X`` ( ou X est un des urls situés ci-dessus ) comme valeur de l'argument ``n_exercise``. 
+Dès qu'il y a la présence de ``(\d+)/``, cela appelera la vue sur laquelle l'URL dirige en utilisant le nombre entré à la suite de 
+``/exercices/X`` ( ou X est un des URLs situés ci-dessus ) comme valeur de l'argument ``n_exercise``. 
 Par exemple, ``/exercices/done/1`` retournera la page des résolutions de l'exercice numéro 1, si l'exercice n'existe pas, la fonction ``get_object_or_404`` 
 retournera une erreur 404.
 
 
-1. L'``url(r'^$', index, name="index")`` renvoie la page d'accueil du site.
+1. L'``URL(r'^$', index, name="index")`` renvoie la page d'accueil du site.
 
-2. L'``url(r'^create/$', create, name="create"),`` renvoie la page de création d'exercices, accessible que par les professeurs.
+2. L'``URL(r'^create/$', create, name="create"),`` renvoie la page de création d'exercices, accessible que par les professeurs.
 
-3. L'``url(r'^find/$', find, name="find"),`` renvoie la page de recherche des exercices.
+3. L'``URL(r'^find/$', find, name="find"),`` renvoie la page de recherche des exercices.
 
-4. L'``url(r'^done/(\d+)/$', done, name="done"),`` renvoie la page comportant les résolutions des élèves par rapport à un exercice.
+4. L'``URL(r'^done/(\d+)/$', done, name="done"),`` renvoie la page comportant les résolutions des élèves par rapport à un exercice.
 
-5. L'``url(r'^resolve/(\d+)/$', resolve, name="resolve"),`` renvoie la page de résolutions d'un exercice.
+5. L'``URL(r'^resolve/(\d+)/$', resolve, name="resolve"),`` renvoie la page de résolutions d'un exercice.
 
-6. L'``url(r'^correction/(\d+)/$', correction, name='correction'),`` renvoie la page de correction d'un exercice.
+6. L'``URL(r'^correction/(\d+)/$', correction, name='correction'),`` renvoie la page de correction d'un exercice.
 
-7. L'``url(r'^search/', search, name="search"),`` ne renvoie aucune page visible par l'utilisateur mais sert à afficher les données qui seront récupérées par la requête Ajax pour la recherche d'un exercice.
+7. L'``URL(r'^search/', search, name="search"),`` ne renvoie aucune page visible par l'utilisateur mais sert à afficher les données qui seront récupérées par la requête Ajax pour la recherche d'un exercice.
 
 
 
@@ -509,7 +509,7 @@ Le template de base du site
 
 
 Pour ce qui est des trois onglets présents sur toutes les pages, il faut mettre des liens vers les différents templates. Pour cela, on utilise 
-une formule Django simple qui permet, si il y a un changement d'url par la suite dans le fichier ``urls.py``, de faire automatiquement le changement 
+une formule Django simple qui permet, si il y a un changement d'URL par la suite dans le fichier ``urls.py``, de faire automatiquement le changement 
 pour éviter les erreurs de redirection.
 
 Le *Frontend* est mis en place en utilisant un thème Bootstrap. Pour cette application, Le thème `shop-item <http://startbootstrap.com/template-overviews/shop-item/>`_ [#f12]_
@@ -531,7 +531,7 @@ est parfait car il est simple, ergonomique et ne demande que très peu de modifi
         
     </div>
     
-Les urls de redirection vers les différentes pages du site sont gérés ci-dessus. On utilise ``<a href="{% url 'exercises:<nom_du_template>' %}"`` 
+Les URLs de redirection vers les différentes pages du site sont gérés ci-dessus. On utilise ``<a href="{% url 'exercises:<nom_du_template>' %}"`` 
 pour renvoyer l'utilisateur vers les ``templates``. Le bloque {% block active-<home, reso ou create> %}{% endblock %} permet d'activer une classe sur l'onglet actuel.
 
 .. raw:: latex
@@ -774,7 +774,7 @@ Si l'exercice ne comporte aucune résolution, on affiche le texte suivant : "Auc
 
 
 .. [#f1] Le lien de la documentation de Python : https://docs.python.org/3/
-.. [#f2] Le lien de la documentation d'Html : http://overapi.com/html/
+.. [#f2] Le lien de la documentation d'HTML : http://overapi.com/html/
 .. [#f3] Le lien de la documentation de CSS : http://overapi.com/css/
 .. [#f4] Le lien de la documentation de Javascript : http://overapi.com/javascript/
 .. [#f5] Le lien de la documentation de Bootstrap : http://getbootstrap.com/getting-started/

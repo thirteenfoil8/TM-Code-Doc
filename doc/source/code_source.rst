@@ -1,1 +1,0 @@
-.. literalinclude:: webmath/Mainprojet/

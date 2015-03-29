@@ -24,7 +24,7 @@ Les fonctionnalités qu'un professeur possède sont les suivantes:
 
 1. Créer un exercice.
     L'apport principal d'un professeur dans cette application est la création des exercices. En effet, un professeur peut créer des exercices soit en cliquant sur l'onglet *Création d'exercice*, 
-    soit en  entrant l'url http://webmath-thirteenfoil8.c9.io/exercises/create/ dans la barre de recherche du navigateur utilisé.
+    soit en  entrant l'URL http://webmath-thirteenfoil8.c9.io/exercises/create/ dans la barre de recherche du navigateur utilisé.
     En parallèle à l'exercice créé, il doit créer son corrigé.
 
 2. Contrôler la résolution des élèves:
@@ -52,12 +52,12 @@ La navigation sur le site
 --------------------------------------
 
 ................
-Les urls
+Les URLs
 ................
 
-La manière la plus simple de se rendre directement sur une page est de rentrer l'url exact dans le navigateur.
+La manière la plus simple de se rendre directement sur une page est de rentrer l'URL exact dans le navigateur.
 
-Les urls de cette application fonctionne comme ci-dessous :
+Les URLs de cette application fonctionne comme ci-dessous :
 
 * Page d'accueil: http://webmath-thirteenfoil8.c9.io/exercises/
 * Page de création d'un exercice: http://webmath-thirteenfoil8.c9.io/exercises/create/
@@ -123,7 +123,7 @@ Sur cette page, il y a différents onglets cliquables:
 
 
 ...............................
-La page de création d'exercices
+La page de création d'exercice
 ...............................
 
 La page de création d'exercice n'est accessible que par les professeurs.
@@ -142,10 +142,10 @@ On remarque que sur cette page, on demande à l'utilisateur d'entrer des donnée
     On fait le choix entre les quatres possibilités de la liste déroulante.
 
 * *Equation à résoudre*
-    L'utilisateur entre l'équation qui sera résolu par un élève.
+    L'utilisateur entre l'équation qui sera résolue par un élève.
 
 * *Difficulté*
-    Denouveau, on choisit entre les possibilités de la liste déroulante. Cela donne une indication de la difficulté de l'exercice à l'élève. Cette difficulté est croissante de 1 jusqu'à 5.
+    De nouveau, on choisit entre les possibilités de la liste déroulante. Cela donne une indication de la difficulté de l'exercice à l'élève. Cette difficulté est croissante de 1 jusqu'à 5.
 
 De plus, le bouton *Faire le corrigé* permet d'afficher la suite du formulaire que l'utilisateur doit remplir.
 
@@ -214,7 +214,7 @@ Dans le cas où l'exercice n'existe pas, un message d'erreur apparaît.
 
 
 ..................................
-La page de résolution d'exercices
+La page de résolution d'exercice
 ..................................
 
 La page de résolution d'exercice est assez similaire à la page de création. En effet, il y a également la présence d'un formulaire que l'élève doit remplir.

@@ -8,7 +8,7 @@ Approche personnelle par rapport à l'application dans le séminaire
 
 Suite à la lecture des sujets de travail de maturité, je me suis senti particulièrement intéressé par le sujet du *Développement d'une plateforme Web d'e-learning*.
 En effet, depuis mon plus jeune âge, le monde de l'informatique et de la technologie font partie intégrante de ma vie. De plus, les mathématiques cultivent
-ma curiosité et me fascine. De ce fait, ce travail de maturité était parfait pour moi.
+ma curiosité et me fascinent. De ce fait, ce travail de maturité était parfait pour moi.
  
 Une des premières choses qu'un élève du secondaire II apprend lors de ses cours de mathématiques est l'algèbre de base. C'est pourquoi j'ai choisi
 la partie du site Web concernant l'*application d'exercices interactifs sur les polynômes du premier et deuxième degré*.
@@ -23,7 +23,7 @@ Le but de l'application
 
 Voici la documentation de l'application ``exercises`` présente sur le site `suivant <https://webmath-thirteenfoil8.c9.io/exercises/>`_ [#f1]_ . Celle-ci permet d'utiliser
 la partie création ainsi que la partie résolution des exercices de manière complète et détaillée. Cette application servira par la suite au
-professeur de réaliser un exercice de factorisation ou de développemennt puis le mettre en ligne. Il suffira de donner le lien de
+professeur à réaliser un exercice de factorisation ou de développemennt puis le mettre en ligne. Il suffira de donner le lien de
 l'exercice à l'élève pour qu'il puisse le résoudre. 
 
 Cette application consiste en premier lieu à avoir un support internet sur lequel un élève du Collège du Sud pourra s'entraîner en prévision de ses examens ou alors tout simplement
